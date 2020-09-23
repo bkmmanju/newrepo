@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version for BigBlueButtonBN Moodle Activity Module.
+ * View all BigBlueButton instances in this course.
  *
  * @package   mod_bigbluebuttonbn
  * @copyright 2010 onwards, Blindside Networks Inc
@@ -23,12 +23,24 @@
  * @author    Jesus Federico  (jesus [at] blindsidenetworks [dt] com)
  * @author    Fred Dixon  (ffdixon [at] blindsidenetworks [dt] com)
  */
+require(__DIR__.'/../../config.php');
+require_once(__DIR__.'/locallib.php');
+require_once(__DIR__.'/lib.php');
+global $CFG,$DB;
+//Manju:Getting the meeting ID.
+$cmid = required_param('cmid',PARAM_RAW);
+$flag = required_param('flag',PARAM_RAW);
+$record = $DB->get_record('bigbluebutton_publish',array('cmid'=>$cmid));
+$upduser = new stdClass();
+$upduser->id = $record->id;
+$upduser->cmid = $record->cmid;
+$upduser->plublishdate = time();
+$upduser->publishflag = 0;
+$upduser->meetingid = $record->meetingid;
+$upduser->filesize = '';
+$res = $DB->update_record('bigbluebutton_publish', $upduser);
+if($res){
+	redirect(new moodle_url('/mod/bigbluebuttonbn/bbb_publishreport.php'));
+}
 
-defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2019042014;
-$plugin->requires = 2016120500;
-$plugin->cron = 0;
-$plugin->component = 'mod_bigbluebuttonbn';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.3.4';

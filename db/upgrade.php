@@ -196,6 +196,42 @@ function xmldb_bigbluebuttonbn_upgrade($oldversion = 0) {
         // Update db version tag.
         upgrade_mod_savepoint(true, 2019042009, 'bigbluebuttonbn');
     }
+    //Manju: Added for field recording style. 31/01/2020.
+    if ($oldversion < 2019042013) {
+        $fielddefinition = array('type' => XMLDB_TYPE_INTEGER, 'precision' => '1', 'unsigned' => null,
+            'notnull' => XMLDB_NOTNULL, 'sequence' => null, 'default' => 0, 'previous' => null);
+        xmldb_bigbluebuttonbn_add_change_field($dbman, 'bigbluebuttonbn', 'recordingstyle',
+            $fielddefinition);
+        // Update db version tag.
+        upgrade_mod_savepoint(true, 2019042013, 'bigbluebuttonbn');
+    }
+    //Manju: 14/09/2020.
+    if ($oldversion < 2019042014) {
+        $table = new xmldb_table('bigbluebutton_publish');
+        //organization Address
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, 
+            XMLDB_NOTNULL, XMLDB_SEQUENCE, null); 
+        $table->add_field('cmid', XMLDB_TYPE_INTEGER, '10',
+            null, null,null, null, null);
+        $table->add_field('meetingid', XMLDB_TYPE_TEXT, '250',
+            null, null,null, null, null);
+        $table->add_field('publishflag', XMLDB_TYPE_INTEGER, '10',
+            null, null,null, null, null);
+        $table->add_field('plublishdate', XMLDB_TYPE_TEXT, '250',
+            null, null,null, null, null);
+        $table->add_field('filesize', XMLDB_TYPE_TEXT, '250',
+            null, null,null, null, null);
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Conditionally launch add field organization address.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Update db version tag.
+        upgrade_mod_savepoint(true, 2019042014, 'bigbluebuttonbn');
+    }
+
+
     return true;
 }
 
@@ -278,7 +314,7 @@ function xmldb_bigbluebuttonbn_rename_table($dbman, $tablenameold, $tablenamenew
  * @param   string    $indextype
  */
 function xmldb_bigbluebuttonbn_index_table($dbman, $tablename, $indexname, $indexfields,
-        $indextype = XMLDB_INDEX_NOTUNIQUE) {
+    $indextype = XMLDB_INDEX_NOTUNIQUE) {
     $table = new xmldb_table($tablename);
     if (!$dbman->table_exists($table)) {
         return;
@@ -289,3 +325,5 @@ function xmldb_bigbluebuttonbn_index_table($dbman, $tablename, $indexname, $inde
     }
     $dbman->add_index($table, $index, true, true);
 }
+
+

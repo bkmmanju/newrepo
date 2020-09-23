@@ -147,15 +147,15 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
             if ($data['openingtime'] != 0 && $data['closingtime'] != 0 &&
                 $data['closingtime'] < $data['openingtime']) {
                 $errors['closingtime'] = get_string('bbbduetimeoverstartingtime', 'bigbluebuttonbn');
-            }
         }
-        if (isset($data['voicebridge'])) {
-            if (!bigbluebuttonbn_voicebridge_unique($data['instance'], $data['voicebridge'])) {
-                $errors['voicebridge'] = get_string('mod_form_field_voicebridge_notunique_error', 'bigbluebuttonbn');
-            }
-        }
-        return $errors;
     }
+    if (isset($data['voicebridge'])) {
+        if (!bigbluebuttonbn_voicebridge_unique($data['instance'], $data['voicebridge'])) {
+            $errors['voicebridge'] = get_string('mod_form_field_voicebridge_notunique_error', 'bigbluebuttonbn');
+        }
+    }
+    return $errors;
+}
 
     /**
      * Function for showing the block for selecting profiles.
@@ -192,10 +192,22 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         $mform->setAdvanced('showdescription');
         if ($cfg['sendnotifications_enabled']) {
             $field = ['type' => 'checkbox', 'name' => 'notification', 'data_type' => PARAM_INT,
-                'description_key' => 'mod_form_field_notification'];
+            'description_key' => 'mod_form_field_notification'];
             $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
                 $field['description_key'], 0);
         }
+        //Manju: adding checkbox and file picker.
+        $radioarray=array();
+        $radioarray[] = $mform->createElement('radio', 'studentdownload', '', get_string('yes'), 1);
+        $radioarray[] = $mform->createElement('radio', 'studentdownload', '', get_string('no'), 0);
+        $mform->addGroup($radioarray, 'studentdownload', get_string('showdownloadvideo','mod_bigbluebuttonbn'), array(' '), false);
+        $mform->addElement('filemanager', 'backgroundimage', get_string('backgroundimage','mod_bigbluebuttonbn'), null,array('accepted_types' => '*','maxfiles' => 1));
+                //Manju: Recording Style dropdown. 31/08/2020.
+        $styles = array(1=>get_string('fullvideo','mod_bigbluebuttonbn'),
+            2=>get_string('videoonly','mod_bigbluebuttonbn'),
+            3=>get_string('presentationonly','mod_bigbluebuttonbn'));
+
+        $mform->addElement('select', 'recordingstyle', get_string('recordingstyle', 'mod_bigbluebuttonbn'), $styles,'');
     }
 
     /**
@@ -207,11 +219,11 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
      */
     private function bigbluebuttonbn_mform_add_block_room_room(&$mform, $cfg) {
         $field = ['type' => 'textarea', 'name' => 'welcome', 'data_type' => PARAM_TEXT,
-            'description_key' => 'mod_form_field_welcome'];
+        'description_key' => 'mod_form_field_welcome'];
         $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
             $field['description_key'], '', ['wrap' => 'virtual', 'rows' => 5, 'cols' => '60']);
         $field = ['type' => 'hidden', 'name' => 'voicebridge', 'data_type' => PARAM_INT,
-            'description_key' => null];
+        'description_key' => null];
         if ($cfg['voicebridge_editable']) {
             $field['type'] = 'text';
             $field['data_type'] = PARAM_TEXT;
@@ -219,8 +231,8 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
             $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
                 $field['description_key'], 0, ['maxlength' => 4, 'size' => 6],
                 ['message' => get_string('mod_form_field_voicebridge_format_error', 'bigbluebuttonbn'),
-                 'type' => 'numeric', 'rule' => '####', 'validator' => 'server']
-              );
+                'type' => 'numeric', 'rule' => '####', 'validator' => 'server']
+            );
         } else {
             $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
                 $field['description_key'], 0, ['maxlength' => 4, 'size' => 6]);
@@ -290,7 +302,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
     private function bigbluebuttonbn_mform_add_block_room_recordings(&$mform, $cfg) {
         $recordingsettings = false;
         $field = ['type' => 'hidden', 'name' => 'recordings_html', 'data_type' => PARAM_INT,
-                  'description_key' => null];
+        'description_key' => null];
         if ($cfg['recordings_html_editable']) {
             $field['type'] = 'checkbox';
             $field['description_key'] = 'mod_form_field_recordings_html';
@@ -299,7 +311,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
             $field['description_key'], $cfg['recordings_html_default']);
         $field = ['type' => 'hidden', 'name' => 'recordings_deleted', 'data_type' => PARAM_INT,
-                  'description_key' => null];
+        'description_key' => null];
         if ($cfg['recordings_deleted_editable']) {
             $field['type'] = 'checkbox';
             $field['description_key'] = 'mod_form_field_recordings_deleted';
@@ -308,7 +320,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
             $field['description_key'], $cfg['recordings_deleted_default']);
         $field = ['type' => 'hidden', 'name' => 'recordings_imported', 'data_type' => PARAM_INT,
-                  'description_key' => null];
+        'description_key' => null];
         if ($cfg['importrecordings_enabled'] && $cfg['recordings_imported_editable']) {
             $field['type'] = 'checkbox';
             $field['description_key'] = 'mod_form_field_recordings_imported';
@@ -317,7 +329,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
             $field['description_key'], $cfg['recordings_imported_default']);
         $field = ['type' => 'hidden', 'name' => 'recordings_preview', 'data_type' => PARAM_INT,
-                  'description_key' => null];
+        'description_key' => null];
         if ($cfg['recordings_preview_editable']) {
             $field['type'] = 'checkbox';
             $field['description_key'] = 'mod_form_field_recordings_preview';
@@ -328,7 +340,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
 
         if (!$recordingsettings) {
             $field = ['type' => 'static', 'name' => 'no_recordings',
-                'defaultvalue' => get_string('mod_form_field_nosettings', 'bigbluebuttonbn')];
+            'defaultvalue' => get_string('mod_form_field_nosettings', 'bigbluebuttonbn')];
             $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], null, null,
                 $field['defaultvalue']);
         }
@@ -345,14 +357,14 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         if ($cfg['voicebridge_editable'] || $cfg['waitformoderator_editable'] ||
             $cfg['userlimit_editable'] || $cfg['recording_editable']) {
             $mform->addElement('header', 'room', get_string('mod_form_block_room', 'bigbluebuttonbn'));
-            $this->bigbluebuttonbn_mform_add_block_room_room($mform, $cfg);
-        }
-        if ($cfg['recordings_html_editable'] || $cfg['recordings_deleted_editable'] ||
-            $cfg['recordings_imported_editable'] || $cfg['recordings_preview_editable']) {
-            $mform->addElement('header', 'recordings', get_string('mod_form_block_recordings', 'bigbluebuttonbn'));
-            $this->bigbluebuttonbn_mform_add_block_room_recordings($mform, $cfg);
-        }
+        $this->bigbluebuttonbn_mform_add_block_room_room($mform, $cfg);
     }
+    if ($cfg['recordings_html_editable'] || $cfg['recordings_deleted_editable'] ||
+        $cfg['recordings_imported_editable'] || $cfg['recordings_preview_editable']) {
+        $mform->addElement('header', 'recordings', get_string('mod_form_block_recordings', 'bigbluebuttonbn'));
+    $this->bigbluebuttonbn_mform_add_block_room_recordings($mform, $cfg);
+}
+}
 
     /**
      * Function for showing the block for preuploaded presentation.
@@ -394,7 +406,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         $htmlselectiontype = html_writer::select($participantselection['type_options'],
             'bigbluebuttonbn_participant_selection_type', $participantselection['type_selected'], array(),
             array('id' => 'bigbluebuttonbn_participant_selection_type',
-                  'onchange' => 'M.mod_bigbluebuttonbn.modform.participantSelectionSet(); return 0;'));
+              'onchange' => 'M.mod_bigbluebuttonbn.modform.participantSelectionSet(); return 0;'));
         $htmlselectionoptions = html_writer::select($participantselection['options'], 'bigbluebuttonbn_participant_selection',
             $participantselection['selected'], array(),
             array('id' => 'bigbluebuttonbn_participant_selection', 'disabled' => 'disabled'));
@@ -402,7 +414,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
             'type' => 'button', 'class' => 'btn btn-secondary',
             'value' => get_string('mod_form_field_participant_list_action_add', 'bigbluebuttonbn'),
             'onclick' => 'M.mod_bigbluebuttonbn.modform.participantAdd(); return 0;'
-          ));
+        ));
         $htmladdparticipant = html_writer::tag('div',
             $htmlselectiontype . '&nbsp;&nbsp;' . $htmlselectionoptions . '&nbsp;&nbsp;' . $htmlselectioninput, null);
         $mform->addElement('html', "\n\n");
@@ -439,20 +451,20 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
             return;
         }
         $field = ['type' => 'hidden', 'name' => 'clienttype', 'data_type' => PARAM_INT,
-            'description_key' => null];
+        'description_key' => null];
         if ($cfg['clienttype_editable']) {
             $field['type'] = 'select';
             $field['data_type'] = PARAM_TEXT;
             $field['description_key'] = 'mod_form_field_block_clienttype';
-             $choices = array(BIGBLUEBUTTON_CLIENTTYPE_FLASH => get_string('mod_form_block_clienttype_flash', 'bigbluebuttonbn'),
-                             BIGBLUEBUTTON_CLIENTTYPE_HTML5 => get_string('mod_form_block_clienttype_html5', 'bigbluebuttonbn'));
-             $mform->addElement('header', 'clienttypeselection', get_string('mod_form_block_clienttype', 'bigbluebuttonbn'));
+            $choices = array(BIGBLUEBUTTON_CLIENTTYPE_FLASH => get_string('mod_form_block_clienttype_flash', 'bigbluebuttonbn'),
+               BIGBLUEBUTTON_CLIENTTYPE_HTML5 => get_string('mod_form_block_clienttype_html5', 'bigbluebuttonbn'));
+            $mform->addElement('header', 'clienttypeselection', get_string('mod_form_block_clienttype', 'bigbluebuttonbn'));
             $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
-                                    $field['description_key'], $cfg['clienttype_default'], $choices);
+                $field['description_key'], $cfg['clienttype_default'], $choices);
             return;
         }
         $this->bigbluebuttonbn_mform_add_element($mform, $field['type'], $field['name'], $field['data_type'],
-                                null, $cfg['clienttype_default']);
+            null, $cfg['clienttype_default']);
     }
 
     /**
@@ -467,14 +479,14 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
         if (isset($activity->openingtime) && $activity->openingtime != 0 ||
             isset($activity->closingtime) && $activity->closingtime != 0) {
             $mform->setExpanded('schedule');
-        }
-        $mform->addElement('date_time_selector', 'openingtime',
-            get_string('mod_form_field_openingtime', 'bigbluebuttonbn'), array('optional' => true));
-        $mform->setDefault('openingtime', 0);
-        $mform->addElement('date_time_selector', 'closingtime',
-            get_string('mod_form_field_closingtime', 'bigbluebuttonbn'), array('optional' => true));
-        $mform->setDefault('closingtime', 0);
     }
+    $mform->addElement('date_time_selector', 'openingtime',
+        get_string('mod_form_field_openingtime', 'bigbluebuttonbn'), array('optional' => true));
+    $mform->setDefault('openingtime', 0);
+    $mform->addElement('date_time_selector', 'closingtime',
+        get_string('mod_form_field_closingtime', 'bigbluebuttonbn'), array('optional' => true));
+    $mform->setDefault('closingtime', 0);
+}
 
     /**
      * Function for showing an element.
@@ -490,7 +502,7 @@ class mod_bigbluebuttonbn_mod_form extends moodleform_mod {
      * @return void
      */
     private function bigbluebuttonbn_mform_add_element(&$mform, $type, $name, $datatype,
-            $descriptionkey, $defaultvalue = null, $options = null, $rule = null) {
+        $descriptionkey, $defaultvalue = null, $options = null, $rule = null) {
         if ($type === 'hidden' || $type === 'static') {
             $mform->addElement($type, $name, $defaultvalue);
             $mform->setType($name, $datatype);

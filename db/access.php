@@ -96,4 +96,13 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
         ),
     ),
+        // Ability to create instances with recording capabilities.
+    'mod/bigbluebuttonbn:viewdownload' => array(
+        'captype' => 'view',
+        'contextlevel' => CONTEXT_USER,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ),
+    ),
 );

@@ -203,4 +203,67 @@ class renderer {
         $this->settings->add($filemanager);
         return $filemanager;
     }
+//Manju:
+/**
+ * Render a general manage file for use as default presentation.
+ *
+ * @param string    $name
+ *
+ * @return Object
+ */
+public function render_filemanager_default_file_picker($name) {
+
+    $filemanageroptions = array();
+    $filemanageroptions['accepted_types'] = '.png';
+    $filemanageroptions['maxbytes'] = 0;
+    $filemanageroptions['subdirs'] = 0;
+    $filemanageroptions['maxfiles'] = 1;
+    $filemanageroptions['mainfile'] = true;
+
+    $filemanager = new \admin_setting_configstoredfile('mod_bigbluebuttonbn/defaultbackground',
+        get_string('config_' . $name, 'bigbluebuttonbn'),
+        get_string('config_' . $name . '_description', 'bigbluebuttonbn'),
+        'defaultbackground',
+        0,
+        $filemanageroptions);
+
+    $this->settings->add($filemanager);
+    return $filemanager;
+}
+/**
+ * Render a general manage file for use as default presentation.
+ *
+ * @param string    $name
+ *
+ * @return Object
+ */
+public function render_filemanager_upload_a_pre_roll($name) {
+
+    $filemanageroptions = array();
+    $filemanageroptions['accepted_types'] = '.mp4';
+    $filemanageroptions['maxbytes'] = 0;
+    $filemanageroptions['subdirs'] = 0;
+    $filemanageroptions['maxfiles'] = 1;
+    $filemanageroptions['mainfile'] = true;
+
+    $filemanager = new \admin_setting_configstoredfile('mod_bigbluebuttonbn/preroll',
+        get_string('config_' . $name, 'bigbluebuttonbn'),
+        get_string('config_' . $name . '_description', 'bigbluebuttonbn'),
+        'pre_roll',
+        0,
+        $filemanageroptions);
+
+    $this->settings->add($filemanager);
+    return $filemanager;
+}
+
+public function render_group_element_text_publish($name,$type = PARAM_RAW) {
+    $default='';
+    $item = new \admin_setting_configtext('mod_bigbluebuttonbn' . $name,
+        get_string('config_publish_url', 'mod_bigbluebuttonbn'),
+        get_string('config_publish_url_description', 'mod_bigbluebuttonbn'),
+        $default, $type);
+    $this->settings->add($item);
+    return $item;
+}
 }

@@ -57,4 +57,5 @@ if ($hassiteconfig) {
     bigbluebuttonbn_settings_muteonstart($renderer);
     // Renders settings for extended capabilities.
     bigbluebuttonbn_settings_extended($renderer);
+    bigbluebuttonbn_settings_extra($renderer);
 }
