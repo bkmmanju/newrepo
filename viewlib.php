@@ -157,6 +157,19 @@ function bigbluebuttonbn_view_render_recording_section(&$bbbsession, $type, $ena
     $output = '';
     if ($type == BIGBLUEBUTTONBN_TYPE_ALL && $bbbsession['record']) {
         $output .= html_writer::start_tag('div', array('id' => 'bigbluebuttonbn_view_recordings_header'));
+                //Manju: Adding icon info.16/09/2020.
+        $output .='<div class="row">
+                    <div class="col-md-2"><label for="download"><i class="fa fa-download" aria-hidden="true" title="Download Video"></i> &nbsp;&nbsp; </label> Download Video.</div>
+                    <div class="col-md-2"><label for="presentation"><i class="fa fa-television" aria-hidden="true" title="Presentation"></i>&nbsp;&nbsp; </label> Presentation.</div>
+                    <div class="col-md-2"><label for="zip"><i class="fa fa-file-archive-o" aria-hidden="true" title="Download Zip"></i>&nbsp;&nbsp;</label> Download Zip.</div>
+                    <div class="col-md-6"></div>
+                    </div>';
+        $output .='<div class="row">
+                    <div class="col-md-2"><label for="download"><i class="fa fa-print" aria-hidden="true" title="Force Publish"></i>&nbsp;&nbsp;</label> Force Publish.</div>
+                    <div class="col-md-2"><label for="presentation"><i class="icon fa fa-eye fa-fw iconsmall" title="Unpublish" aria-label="Unpublish"></i> </label> Unpublish.</div>
+                    <div class="col-md-2"><label for="zip"><i class="icon fa fa-trash fa-fw iconsmall" title="Delete" aria-label="Delete"></i> </label> Delete.</div>
+                    <div class="col-md-6"></div>
+                    </div>';
         $output .= html_writer::tag('h4', get_string('view_section_title_recordings', 'bigbluebuttonbn'));
         $output .= html_writer::end_tag('div');
     }

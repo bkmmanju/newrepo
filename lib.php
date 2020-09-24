@@ -1157,3 +1157,23 @@ function mod_bigbluebuttonbn_pluginfile($course, $cm, $context, $filearea, $args
         $DB->insert_record('bigbluebutton_publish', $insert);
     }
 }
+
+
+function mod_bigbluebuttonbn_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context){
+    global $CFG, $COURSE,$DB;
+
+    $course = $DB->get_record('course', array('id' => $COURSE->id));
+//require_course_login($course);
+    $context = context_course::instance($course->id);
+    $url1 = $CFG->wwwroot.'/mod/bigbluebuttonbn/bbb_publishreport.php?courseid='.$COURSE->id;
+    $parentnode->add('Davy Publish', $url1, navigation_node::TYPE_CONTAINER, null, 'excoursepromo', new pix_icon('i/grades', 'Davy Publish'));
+}
+
+function isa_convert_bytes_to_specified($bytes, $to, $decimal_places = 1) {
+    $formulas = array(
+        'K' => number_format($bytes / 1024, $decimal_places),
+        'M' => number_format($bytes / 1048576, $decimal_places),
+        'G' => number_format($bytes / 1073741824, $decimal_places)
+    );
+    return isset($formulas[$to]) ? $formulas[$to] : 0;
+}

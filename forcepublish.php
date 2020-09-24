@@ -29,17 +29,21 @@ require_once(__DIR__.'/lib.php');
 global $CFG,$DB;
 $recordid = optional_param('recordid', '', PARAM_TEXT);
 $cmid = optional_param('cmid', '', PARAM_TEXT);
-$rec = $DB->get_record_sql('SELECT * FROM {bigbluebutton_publish} WHERE publishflag = 0 
-	AND meetingid ="'.$recordid.'"');
 
+$rec = $DB->get_record_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid = '$recordid'");
 if(!empty($rec)){
 		//check for the file existance in lecturebackground folder.
 	$filecheck = $CFG->dirroot.'/mod/bigbluebuttonbn/lecturebackground/'.$rec->cmid.'.png';
+
 	//Get the complete course module from cmid.
 	$recobject = $DB->get_record('course_modules',array('id'=>$rec->cmid));
 	$context = context_module::instance($recobject->id);
 	$contextid = $context->id;
 	$bigbluebutton = $DB->get_record('bigbluebuttonbn',array('id'=>$recobject->instance));
+
+	if (file_exists($filecheck)) {
+		unlink($filecheck);
+	}
 
 	if (!file_exists($filecheck)) {
 	//Lecture background.
@@ -90,16 +94,18 @@ if(!empty($rec)){
 			fclose($prefp);
 		}
 	}
-		// if file already exists then ready to go to the curl
+// if file already exists then ready to go to the curl
+		//Getting the publish url from the setting page.
+	$publishurl = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'"); 
+		//Mihir changed issue with quote
 
-		$publishurl = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'"); //Mihir changed issue with quote
+	$url = $publishurl->value.'/files.php';
 
-		$url = $publishurl->value.'/files.php';
-
-		$type = $bigbluebutton->recordingstyle;
-		$recordingid = $rec->meetingid;
+	$type = $bigbluebutton->recordingstyle;
+	$recordingid = $rec->meetingid;
 		$cmid = $rec->cmid;//// get the value
 		$moodleurl = $CFG->wwwroot;//// get the value
+
 		$data = array (
 			'type' => $type,
 			'recordingid' => $recordingid,
@@ -111,12 +117,13 @@ if(!empty($rec)){
 			$params .= $key.'='.$value.'&';
 
 		$params = trim($params, '&');
+
 		$remoteurl = $url.'?'.$params;
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $remoteurl); 
-		//Remote Location URL
+		curl_setopt($ch, CURLOPT_URL, $remoteurl); //Remote Location URL
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$output = curl_exec($ch);
+
 		curl_error($ch);
 		curl_close($ch);
 
@@ -128,7 +135,7 @@ if(!empty($rec)){
 		$handle = @fopen($file, 'r');
 
 		if($handle){
-					//Get the file size in bytes.
+			//Get the file size in bytes.
 			$ch1 = curl_init($file);
 			curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
 			curl_setopt($ch1, CURLOPT_HEADER, TRUE);
@@ -148,10 +155,10 @@ if(!empty($rec)){
 			if($result){
 			//Redirect to activity page.
 				$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$rec->cmid;
-				redirect($link,"Successfully Published");
+				redirect($link,get_string('successfullypublish','mod_bigbluebuttonbn'));
 			}
 
 		}
 	}
 	$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
-	redirect($link);
+	redirect($link,get_string('unabletopublish','mod_bigbluebuttonbn'));

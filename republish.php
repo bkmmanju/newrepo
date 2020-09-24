@@ -30,7 +30,8 @@ global $CFG,$DB;
 //Manju:Getting the meeting ID.
 $cmid = required_param('cmid',PARAM_RAW);
 $flag = required_param('flag',PARAM_RAW);
-$record = $DB->get_record('bigbluebutton_publish',array('cmid'=>$cmid));
+$recordid = required_param('recordid',PARAM_RAW);
+$record = $DB->get_record('bigbluebutton_publish',array('meetingid'=>$recordid));
 $upduser = new stdClass();
 $upduser->id = $record->id;
 $upduser->cmid = $record->cmid;

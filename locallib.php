@@ -1632,16 +1632,24 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		$studentdownloadvideo='';
 		if(!empty($exploaddata)){
             //creating links for admin and teacher.
-			//$publishurl1 = $DB->get_record_sql('SELECT * FROM {config} WHERE name LIKE "%mod_bigbluebuttonbnpublish_url%"');
+			$rec = $DB->get_record_sql('SELECT * FROM {bigbluebutton_publish} WHERE meetingid ="'.$recording['recordID'].'"');
+			$publishclass ="";
+
+			if($rec->publishflag == 1){
+				$publishclass =" text-success";
+			}else if($rec->publishflag == 0){
+				$publishclass = " inactiveLink";
+			}
+
 			$publishurl1 = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'");
 			$vidurl = $publishurl1->value.'/recorddownload.php?';
 
 			$videodownlink = $vidurl.'recordid='.$recording['recordID'].'&type=mp4';
-			$finalvideolink = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate"><i class="fa fa-download" aria-hidden="true"></i></a>';
+			$finalvideolink = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-download" aria-hidden="true"></i></a>';
 			$studentvideo = $DB->get_field('bigbluebuttonbn','studentdownload',array('meetingid'=>$exploaddata['0']));
             //if download link enabled for students.
 			if($studentvideo == 1){
-				$studentdownloadvideo = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate"><i class="fa fa-download" aria-hidden="true"></i></a>';
+				$studentdownloadvideo = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-download" aria-hidden="true"></i></a>';
 			}
 		}
         //Manju:here getting the presentation button.
@@ -1658,7 +1666,7 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		$isteacheranywhere = false;
 		$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
 		if (has_capability('moodle/course:update', $coursecontext)) {
-		  /** do stuff here */
+			/** do stuff here */
 			$isteacheranywhere = true;
 		}
 		// end of Mihir code 20-Sep 2020
@@ -1672,9 +1680,9 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			$url = $publishurl1->value.'/recorddownload.php?';
 
 			$downloadhref = $url.'recordid='.$recording['recordID'].'&type=zip';
-			$recordingtypes.= '&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$downloadhref.'" class="action-icon btn-action text-truncate"><i class="fa fa-file-archive-o" aria-hidden="true"></i></a>';
+			$recordingtypes.= '&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$downloadhref.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-file-archive-o" aria-hidden="true"></i></a>';
 			//Manju:Adding forcepublish button.15/09/2020.
-			$forcepublishhref = $CFG->wwwroot.'/mod/bigbluebuttonbn/forcepublish.php?recordid='.$recording['recordID'];
+			$forcepublishhref = $CFG->wwwroot.'/mod/bigbluebuttonbn/forcepublish.php?recordid='.$recording['recordID'].'&cmid='.$rec->cmid;
 			$recordingtypes .= '&nbsp;&nbsp;<a href="'.$forcepublishhref.'" class="action-icon btn-action text-truncate"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;';
 
 			$recordingtypes.=bigbluebuttonbn_get_recording_data_row_actionbar($recording, $tools = ['publish', 'delete']);

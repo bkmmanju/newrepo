@@ -90,14 +90,16 @@ if(!empty($publishedrecs)){
 				fclose($prefp);
 			}
 		}
-// if file already exists then ready to go to the curl
-		$publishurl = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'");
+		//if file already exists then ready to go to the curl
+		//Getting the publish url from the setting page.
+		$publishurl = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'"); 
 		//Mihir changed issue with quote
 		$url = $publishurl->value.'/files.php';
 		$type = $bigbluebutton->recordingstyle;
 		$recordingid = $rec->meetingid;
 		$cmid = $rec->cmid;//// get the value
 		$moodleurl = $CFG->wwwroot;//// get the value
+
 		$data = array (
 			'type' => $type,
 			'recordingid' => $recordingid,
@@ -110,32 +112,34 @@ if(!empty($publishedrecs)){
 		$params = trim($params, '&');
 		$remoteurl = $url.'?'.$params;
 		$ch = curl_init();
-		    curl_setopt($ch, CURLOPT_URL, $remoteurl); //Remote Location URL
-		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-		    $output = curl_exec($ch);
-		    curl_error($ch);
-		    curl_close($ch);
+		curl_setopt($ch, CURLOPT_URL, $remoteurl); 
+		    //Remote Location URL	
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+	    //Return data instead printing directly in Browser.
+		$output = curl_exec($ch);
+		curl_error($ch);
+		curl_close($ch);
 			//Getting the file size.
-		    $file = $publishurl->value.'/recording/'.$recordingid.'/lecture.mp4';
+		$file = $publishurl->value.'/recording/'.$recordingid.'/lecture.mp4';
 		    //Manju:check if the file is exits of ready.23/09/2020.
-		    $handle = @fopen($file, 'r');
-		    if($handle){
-		    	$ch1 = curl_init($file);
-		    	curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
-		    	curl_setopt($ch1, CURLOPT_HEADER, TRUE);
-		    	curl_setopt($ch1, CURLOPT_NOBODY, TRUE);
-		    	$data = curl_exec($ch1);
-		    	$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-		    	curl_close($ch1);
+		$handle = @fopen($file, 'r');
+		if($handle){
+			$ch1 = curl_init($file);
+			curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch1, CURLOPT_HEADER, TRUE);
+			curl_setopt($ch1, CURLOPT_NOBODY, TRUE);
+			$data = curl_exec($ch1);
+			$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			curl_close($ch1);
 
-		    	$filesize = isa_convert_bytes_to_specified($size, 'M');
-		    	$upduser = new stdClass();
-		    	$upduser->id = $rec->id;
-		    	$upduser->plublishdate = time();
-		    	$upduser->publishflag = 1;
-		    	$upduser->meetingid = $rec->meetingid;
-		    	$upduser->filesize = $filesize.' MB';
-		    	$DB->update_record('bigbluebutton_publish', $upduser);
-		    }
+			$filesize = isa_convert_bytes_to_specified($size, 'M');
+			$upduser = new stdClass();
+			$upduser->id = $rec->id;
+			$upduser->plublishdate = time();
+			$upduser->publishflag = 1;
+			$upduser->meetingid = $rec->meetingid;
+			$upduser->filesize = $filesize.' MB';
+			$DB->update_record('bigbluebutton_publish', $upduser);
 		}
 	}
+}
