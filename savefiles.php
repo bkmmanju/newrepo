@@ -118,7 +118,8 @@ if(!empty($publishedrecs)){
 			//Getting the file size.
 		    $file = $publishurl->value.'/recording/'.$recordingid.'/lecture.mp4';
 		    //Manju:check if the file is exits of ready.23/09/2020.
-		    if(file_exists($file)){
+		    $handle = @fopen($file, 'r');
+		    if($handle){
 		    	$ch1 = curl_init($file);
 		    	curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
 		    	curl_setopt($ch1, CURLOPT_HEADER, TRUE);

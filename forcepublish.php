@@ -28,24 +28,18 @@ require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/lib.php');
 global $CFG,$DB;
 $recordid = optional_param('recordid', '', PARAM_TEXT);
-
-//$rec = $DB->get_record_sql("SELECT * FROM {bigbluebutton_publish} WHERE publishflag = 0 AND meetingid =".'"'.$recordid.'"'."");
-
-		$rec = $DB->get_record_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid = '$recordid'");
+$cmid = optional_param('cmid', '', PARAM_TEXT);
+$rec = $DB->get_record_sql('SELECT * FROM {bigbluebutton_publish} WHERE publishflag = 0 
+	AND meetingid ="'.$recordid.'"');
 
 if(!empty($rec)){
 		//check for the file existance in lecturebackground folder.
 	$filecheck = $CFG->dirroot.'/mod/bigbluebuttonbn/lecturebackground/'.$rec->cmid.'.png';
-
 	//Get the complete course module from cmid.
 	$recobject = $DB->get_record('course_modules',array('id'=>$rec->cmid));
 	$context = context_module::instance($recobject->id);
 	$contextid = $context->id;
 	$bigbluebutton = $DB->get_record('bigbluebuttonbn',array('id'=>$recobject->instance));
-
-	if (file_exists($filecheck)) {
-		unlink($filecheck);
-	}
 
 	if (!file_exists($filecheck)) {
 	//Lecture background.
@@ -96,11 +90,8 @@ if(!empty($rec)){
 			fclose($prefp);
 		}
 	}
-// if file already exists then ready to go to the curl
+		// if file already exists then ready to go to the curl
 
-		//Calling curl....................................................
-		//Getting the publish url from the setting page.
-	//	$publishurl = $DB->get_record_sql('SELECT * FROM {config} WHERE name LIKE "%mod_bigbluebuttonbnpublish_url%"');
 		$publishurl = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'"); //Mihir changed issue with quote
 
 		$url = $publishurl->value.'/files.php';
@@ -109,7 +100,6 @@ if(!empty($rec)){
 		$recordingid = $rec->meetingid;
 		$cmid = $rec->cmid;//// get the value
 		$moodleurl = $CFG->wwwroot;//// get the value
-
 		$data = array (
 			'type' => $type,
 			'recordingid' => $recordingid,
@@ -121,21 +111,47 @@ if(!empty($rec)){
 			$params .= $key.'='.$value.'&';
 
 		$params = trim($params, '&');
-
 		$remoteurl = $url.'?'.$params;
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $remoteurl); //Remote Location URL
+		curl_setopt($ch, CURLOPT_URL, $remoteurl); 
+		//Remote Location URL
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$output = curl_exec($ch);
-
 		curl_error($ch);
+		curl_close($ch);
 
-		$upduser = new stdClass();
-		$upduser->id = $rec->id;
-		$upduser->plublishdate = time();
-		$upduser->publishflag = 1;
-		$upduser->meetingid = $rec->meetingid;
-		$upduser->filesize = '';
-		$DB->update_record('bigbluebutton_publish', $upduser);
+		// Getting the file size.
+		$file = $publishurl->value.'/recording/'.$recordingid.'/lecture.mp4';
 
+		//Check the file. if the file is present then proceed.
+		// Open file
+		$handle = @fopen($file, 'r');
+
+		if($handle){
+					//Get the file size in bytes.
+			$ch1 = curl_init($file);
+			curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch1, CURLOPT_HEADER, TRUE);
+			curl_setopt($ch1, CURLOPT_NOBODY, TRUE);
+			$data = curl_exec($ch1);
+			$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+			curl_close($ch1);
+			$filesize = isa_convert_bytes_to_specified($size, 'M');
+
+			$upduser = new stdClass();
+			$upduser->id = $rec->id;
+			$upduser->plublishdate = time();
+			$upduser->publishflag = 1;
+			$upduser->meetingid = $rec->meetingid;
+			$upduser->filesize = $filesize.' MB';
+			$result = $DB->update_record('bigbluebutton_publish', $upduser);
+			if($result){
+			//Redirect to activity page.
+				$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$rec->cmid;
+				redirect($link,"Successfully Published");
+			}
+
+		}
 	}
+	$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
+	redirect($link);
