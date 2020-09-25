@@ -127,6 +127,7 @@ if(!empty($publishedrecs)){
 		$file = $publishurl->value.'/recording/'.$recordingid.'/lecture.mp4';
 		    //Manju:check if the file is exits of ready.23/09/2020.
 		$handle = @fopen($file, 'r');
+		$filesize='';
 		if($handle){
 			$ch1 = curl_init($file);
 			curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
@@ -135,15 +136,14 @@ if(!empty($publishedrecs)){
 			$data = curl_exec($ch1);
 			$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 			curl_close($ch1);
-
 			$filesize = isa_convert_bytes_to_specified($size, 'M');
-			$upduser = new stdClass();
-			$upduser->id = $rec->id;
-			$upduser->plublishdate = time();
-			$upduser->publishflag = 1;
-			$upduser->meetingid = $rec->meetingid;
-			$upduser->filesize = $filesize.' MB';
-			$DB->update_record('bigbluebutton_publish', $upduser);
 		}
+		$upduser = new stdClass();
+		$upduser->id = $rec->id;
+		$upduser->plublishdate = time();
+		$upduser->publishflag = 1;
+		$upduser->meetingid = $rec->meetingid;
+		$upduser->filesize = $filesize.' MB';
+		$DB->update_record('bigbluebutton_publish', $upduser);
 	}
 }

@@ -160,7 +160,7 @@ if(!empty($rec)){
 		//Check the file. if the file is present then proceed.
 		// Open file
 		$handle = @fopen($file, 'r');
-
+		$filesize='';
 		if($handle){
 			//Get the file size in bytes.
 			$ch1 = curl_init($file);
@@ -171,23 +171,16 @@ if(!empty($rec)){
 			$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 			curl_close($ch1);
 			$filesize = isa_convert_bytes_to_specified($size, 'M');
-
-			$upduser = new stdClass();
-			$upduser->id = $rec->id;
-			$upduser->plublishdate = time();
-			$upduser->publishflag = 1;
-			$upduser->meetingid = $rec->meetingid;
-			$upduser->filesize = $filesize.' MB';
-			$result = $DB->update_record('bigbluebutton_publish', $upduser);
-			// if($result){
-			// //Redirect to activity page.
-			// 	$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$rec->cmid;
-			// 	redirect($link,get_string('successfullypublish','mod_bigbluebuttonbn'));
-			// }
 		}
+		$upduser = new stdClass();
+		$upduser->id = $rec->id;
+		$upduser->plublishdate = time();
+		$upduser->publishflag = 1;
+		$upduser->meetingid = $rec->meetingid;
+		$upduser->filesize = $filesize.' MB';
+		$result = $DB->update_record('bigbluebutton_publish', $upduser);
 	}
-	// $link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
-	// redirect($link,get_string('unabletopublish','mod_bigbluebuttonbn'));
+
 
 
 
