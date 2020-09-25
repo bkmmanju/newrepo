@@ -231,7 +231,45 @@ function xmldb_bigbluebuttonbn_upgrade($oldversion = 0) {
         upgrade_mod_savepoint(true, 2019042014, 'bigbluebuttonbn');
     }
 
+    //Manju: 21/09/2020.
+    if ($oldversion < 2019042017) {
+        $table = new xmldb_table('bigbluebutton_attendance');
+        //organization Address
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, 
+            XMLDB_NOTNULL, XMLDB_SEQUENCE, null); 
+        $table->add_field('course', XMLDB_TYPE_INTEGER, '10',
+            null, null,null, null, null);
+        $table->add_field('bigbluebuttonbnid', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '100',
+            null, null,null, null, null);
+        $table->add_field('jointime', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('lefttime', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('recordingid', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('meetingid', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('role', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('presenter', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('listeningonly', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('clientype', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_field('extra', XMLDB_TYPE_TEXT, '256',
+            null, null,null, null, null);
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
 
+        // Conditionally launch add field organization address.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Update db version tag.
+        upgrade_mod_savepoint(true, 2019042015, 'bigbluebuttonbn');
+    }
     return true;
 }
 
