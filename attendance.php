@@ -46,7 +46,7 @@ $PAGE->navbar->add(get_string('courses','mod_bigbluebuttonbn'),new moodle_url('/
 $PAGE->navbar->add($categoryname,new moodle_url('/course/index.php?categoryid='.$categoryid));
 $PAGE->navbar->add($coursename,new moodle_url('/course/view.php?id='.$recobject->course));
 $PAGE->navbar->add($sectionname,new moodle_url('/course/view.php?id='.$recobject->course.'#section-'.$coursesection->section));
-$PAGE->navbar->add($instance,new moodle_url('/mod/bigbluebuttonbn/view.php?id='.$recobject->instance));
+$PAGE->navbar->add($instance,new moodle_url('/mod/bigbluebuttonbn/view.php?id='.$cmid));
 $title = get_string('attendance','mod_bigbluebuttonbn');
 $PAGE->navbar->add($title);
 $PAGE->set_title($title);
