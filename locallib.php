@@ -1674,8 +1674,11 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		$recordingtypes .='</span>';
 		if ($isteacheranywhere || is_siteadmin($USER->id)) {
 			$recordingtypes.=$finalvideolink;
+			//Manju: attendance page link.25/09/2020.
+			$attendancehref=$CFG->wwwroot.'/mod/bigbluebuttonbn/attendance.php?recordid='.$recording['recordID'].'&cmid='.$rec->cmid;
+			$recordingtypes .= '&nbsp;&nbsp;<a href="'.$attendancehref.'" class="action-icon btn-action text-truncate"><i class="fa fa-users" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+
             //Manju: getting the publish url. 14/09/2020.
-		//	$publishurl = $DB->get_record_sql('SELECT * FROM {config} WHERE name LIKE "%mod_bigbluebuttonbnpublish_url%"');
 			$publishurl1 = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'"); //Mihir changed issue with quote
 			$url = $publishurl1->value.'/recorddownload.php?';
 
@@ -1689,6 +1692,16 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		}else{
 			$recordingtypes.= $studentdownloadvideo;
 		}
+		//-----------------
+		$serverurl = $DB->get_field('config','value',array('name'=>'bigbluebuttonbn_server_url'));
+		$reqserverurl = str_replace('/bigbluebutton/', '', $serverurl);
+		$webmurl = $reqserverurl.'/download/presentation/'.$recording['recordID'].'/video/webcams.mp4';
+		$copyid ="c".$recording['recordID'];
+		
+		$recordingtypes.="<button name='copy' value='".$copyid."' onclick='f1(this)'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
+		$recordingtypes.='<input type="text" value="'.$webmurl.'" id="'.$copyid.'" style="width:5px;opacity:0;">';
+
+		//-----------------
 	}
 	$recordingtypes .= html_writer::end_tag('div');
 	return $recordingtypes;

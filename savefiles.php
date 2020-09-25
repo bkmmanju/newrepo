@@ -37,6 +37,10 @@ if(!empty($publishedrecs)){
 
 	//Get the complete course module from cmid.
 		$recobject = $DB->get_record('course_modules',array('id'=>$rec->cmid));
+				// sometimes teacher may delete a course module at later point ; Mihir 25 Sep 2020
+		if (empty($recobject)) {
+			continue;
+		}
 		$context = context_module::instance($recobject->id);
 		$contextid = $context->id;
 		$bigbluebutton = $DB->get_record('bigbluebuttonbn',array('id'=>$recobject->instance));

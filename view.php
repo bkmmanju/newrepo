@@ -31,6 +31,7 @@ require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/viewlib.php');
 
+
 $id = required_param('id', PARAM_INT);
 $bn = optional_param('bn', 0, PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
@@ -45,6 +46,7 @@ $course = $viewinstance['course'];
 $bigbluebuttonbn = $viewinstance['bigbluebuttonbn'];
 
 require_login($course, true, $cm);
+$PAGE->requires->js(new moodle_url($CFG->wwwroot.'/mod/bigbluebuttonbn/js/custom.js'));
 
 // In locallib.
 bigbluebuttonbn_event_log(\mod_bigbluebuttonbn\event\events::$events['view'], $bigbluebuttonbn);
