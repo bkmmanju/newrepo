@@ -26,9 +26,35 @@
 require(__DIR__.'/../../config.php');
 require_once(__DIR__.'/locallib.php');
 require_once(__DIR__.'/lib.php');
-global $CFG,$DB;
+global $DB, $USER, $SESSION,$CFG,$OUTPUT,$PAGE;
 $recordid = optional_param('recordid', '', PARAM_TEXT);
 $cmid = optional_param('cmid', '', PARAM_TEXT);
+require_login(true);
+$cm = get_coursemodule_from_id('bigbluebuttonbn', $cmid);
+$contextmodule = context_module::instance($cm->id);
+$PAGE->set_context($contextmodule);
+$PAGE->set_cm($cm);
+$PAGE->set_pagelayout('admin');
+$PAGE->set_url($CFG->wwwroot . '/mod/bigbluebuttonbn/forcepublish.php',array('cmid'=>$cmid,'recordid'=>$recordid));
+$title = get_string('publishing','mod_bigbluebuttonbn');
+$PAGE->navbar->add($title);
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+$PAGE->requires->jquery();
+echo $OUTPUT->header();
+$retlink = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
+$html='';
+$html.=html_writer::start_div('text-center');
+$html.=get_string('forcepublishmessage','mod_bigbluebuttonbn');
+$html.=html_writer::end_div();
+$html.=html_writer::start_div('text-center');
+$html.=html_writer::start_tag('a',array('href'=>$retlink));
+$html.=get_string('continue','mod_bigbluebuttonbn');
+$html.=html_writer::end_tag('a');
+$html.=html_writer::end_div();
+echo $html;
+
+echo $OUTPUT->footer();
 
 $rec = $DB->get_record_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid = '$recordid'");
 if(!empty($rec)){
@@ -123,6 +149,7 @@ if(!empty($rec)){
 		curl_setopt($ch, CURLOPT_URL, $remoteurl); //Remote Location URL
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$output = curl_exec($ch);
+		print_object($output);die;
 
 		curl_error($ch);
 		curl_close($ch);
@@ -152,13 +179,15 @@ if(!empty($rec)){
 			$upduser->meetingid = $rec->meetingid;
 			$upduser->filesize = $filesize.' MB';
 			$result = $DB->update_record('bigbluebutton_publish', $upduser);
-			if($result){
-			//Redirect to activity page.
-				$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$rec->cmid;
-				redirect($link,get_string('successfullypublish','mod_bigbluebuttonbn'));
-			}
-
+			// if($result){
+			// //Redirect to activity page.
+			// 	$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$rec->cmid;
+			// 	redirect($link,get_string('successfullypublish','mod_bigbluebuttonbn'));
+			// }
 		}
 	}
-	$link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
-	redirect($link,get_string('unabletopublish','mod_bigbluebuttonbn'));
+	// $link = $CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$cmid;
+	// redirect($link,get_string('unabletopublish','mod_bigbluebuttonbn'));
+
+
+

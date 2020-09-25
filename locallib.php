@@ -1689,19 +1689,19 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			$recordingtypes .= '&nbsp;&nbsp;<a href="'.$forcepublishhref.'" class="action-icon btn-action text-truncate"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;';
 
 			$recordingtypes.=bigbluebuttonbn_get_recording_data_row_actionbar($recording, $tools = ['publish', 'delete']);
+			//Manju: Adding copy to clipboard option. 25/09/2020.
+			$serverurl = $DB->get_field('config','value',array('name'=>'bigbluebuttonbn_server_url'));
+			$reqserverurl = str_replace('/bigbluebutton/', '', $serverurl);
+			$webmurl = $reqserverurl.'/download/presentation/'.$recording['recordID'].'/video/webcams.mp4';
+			$copyid ="c".$recording['recordID'];
+
+			$recordingtypes.="<button name='copy' value='".$copyid."' onclick='f1(this)'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
+			$recordingtypes.='<input type="text" value="'.$webmurl.'" id="'.$copyid.'" style="width:5px;opacity:0;">';
+		//copy to clipboard option ends.
 		}else{
 			$recordingtypes.= $studentdownloadvideo;
 		}
-		//-----------------
-		$serverurl = $DB->get_field('config','value',array('name'=>'bigbluebuttonbn_server_url'));
-		$reqserverurl = str_replace('/bigbluebutton/', '', $serverurl);
-		$webmurl = $reqserverurl.'/download/presentation/'.$recording['recordID'].'/video/webcams.mp4';
-		$copyid ="c".$recording['recordID'];
-		
-		$recordingtypes.="<button name='copy' value='".$copyid."' onclick='f1(this)'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
-		$recordingtypes.='<input type="text" value="'.$webmurl.'" id="'.$copyid.'" style="width:5px;opacity:0;">';
 
-		//-----------------
 	}
 	$recordingtypes .= html_writer::end_tag('div');
 	return $recordingtypes;

@@ -504,3 +504,37 @@ $string['republish'] = 'Mark for republish';
 $string['republished'] = 'Published';
 $string['unrepublished'] = 'Unpublished';
 $string['publishreport'] = 'Publish Reports';
+
+$string['successfullypublish'] = 'Successfully Published';
+$string['unabletopublish'] = 'Unable to publish';
+
+$string['republished'] = 'Published';
+$string['unrepublished'] = 'Unpublished';
+$string['publishreport'] = 'Publish Reports';
+$string['downloads'] = 'Downloads';
+
+$string['starttime'] = 'Start Time';
+$string['endtime'] = 'End Time';
+$string['duration'] = 'Duration';
+$string['serialno'] = 'Sl No';
+$string['attendance'] = 'Attendance Report';
+
+$string['courses'] = 'Courses';
+
+$string['publishing'] = 'Re-published';
+$string['forcepublishmessage'] = 'Re-publishing of the recording is in-progress, based on the file size it may take some time. Please click below button to go back to your recording page.</br>Once the publishing is complete download mp4 button will turn green.';
+$string['continue'] = 'Continue';
+
+$string['legend_downloadvideolock'] = 'Download Video(Not yet ready)';
+$string['legend_downloadvideogreen'] = 'Download Video(Ready)';
+$string['legend_presentation'] = 'Presentation';
+$string['legend_downloadziplock'] = 'Download Zip(Not yet ready)';
+$string['legend_downloadzipgreen'] = 'Download Zip(Ready)';
+$string['legend_forcepublish'] = 'Publish recording';
+$string['legend_unpublish'] = 'Hide recording';
+$string['legend_delete'] = 'Delete(!!Careful!!)';
+
+$string['legend_copyrecording'] = 'Copy recording link';
+$string['legend_attendance'] = 'Attendance report';
+
+

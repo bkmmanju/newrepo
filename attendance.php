@@ -27,26 +27,12 @@ $recordid = required_param('recordid', PARAM_RAW);
 $cmid = required_param('cmid', PARAM_INT);
 global $DB, $USER, $SESSION,$CFG;  
 require_login(true);
-$context = context_system::instance();
-$PAGE->set_context($context);
+$cm = get_coursemodule_from_id('bigbluebuttonbn', $cmid);
+$contextmodule = context_module::instance($cm->id);
+$PAGE->set_context($contextmodule);
 $PAGE->set_pagelayout('admin');
+$PAGE->set_cm($cm);
 $PAGE->set_url($CFG->wwwroot . '/mod/bigbluebutton/attendance.php');
-$recobject = $DB->get_record('course_modules',array('id'=>$cmid));
-$categoryid = $DB->get_field('course','category',array('id'=>$recobject->course));
-$categoryname = $DB->get_field('course_categories','name',array('id'=>$categoryid));
-$coursename = $DB->get_field('course','fullname',array('id'=>$recobject->course));
-$coursesection = $DB->get_record('course_sections',array('id'=>$recobject->section));
-if($coursesection->name == NULL){
-	$sectionname = "Topic ".$coursesection->section;
-}else{
-	$sectionname = $coursesection->name;
-}
-$instance = $DB->get_field('bigbluebuttonbn','name',array('id'=>$recobject->instance));
-$PAGE->navbar->add(get_string('courses','mod_bigbluebuttonbn'),new moodle_url('/course/index.php'));
-$PAGE->navbar->add($categoryname,new moodle_url('/course/index.php?categoryid='.$categoryid));
-$PAGE->navbar->add($coursename,new moodle_url('/course/view.php?id='.$recobject->course));
-$PAGE->navbar->add($sectionname,new moodle_url('/course/view.php?id='.$recobject->course.'#section-'.$coursesection->section));
-$PAGE->navbar->add($instance,new moodle_url('/mod/bigbluebuttonbn/view.php?id='.$cmid));
 $title = get_string('attendance','mod_bigbluebuttonbn');
 $PAGE->navbar->add($title);
 $PAGE->set_title($title);
