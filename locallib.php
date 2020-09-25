@@ -1692,7 +1692,8 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			//Manju: Adding copy to clipboard option. 25/09/2020.
 			$serverurl = $DB->get_field('config','value',array('name'=>'bigbluebuttonbn_server_url'));
 			$reqserverurl = str_replace('/bigbluebutton/', '', $serverurl);
-			$webmurl = $reqserverurl.'/download/presentation/'.$recording['recordID'].'/video/webcams.mp4';
+			$webmurl = $reqserverurl.'/playback/presentation/2.0/playback.html?meetingId='.$recording['recordID'];
+
 			$copyid ="c".$recording['recordID'];
 
 			$recordingtypes.="<button name='copy' value='".$copyid."' onclick='f1(this)'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";

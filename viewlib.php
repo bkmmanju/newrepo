@@ -158,7 +158,11 @@ function bigbluebuttonbn_view_render_recording_section(&$bbbsession, $type, $ena
     if ($type == BIGBLUEBUTTONBN_TYPE_ALL && $bbbsession['record']) {
         $output .= html_writer::start_tag('div', array('id' => 'bigbluebuttonbn_view_recordings_header'));
                 //Manju: Adding icon info.16/09/2020.
-        $output .='<div class="card p-3 mb-2 rounded"><div class="row">
+        $output .='<div class="card p-3 mb-2 rounded">
+        <div class="row text-center p-2"> <div class="">'.get_string('availibility','mod_bigbluebuttonbn').'</div></div>
+
+        <div class="row">
+        
         <div class="col-md-3"><label for="download"><i class="fa fa-download" aria-hidden="true" title="'.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'"></i> &nbsp;&nbsp; </label> '.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'</div>
         <div class="col-md-3"><label for="download"><i class="fa fa-download text-success" aria-hidden="true" title="'.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'"></i> &nbsp;&nbsp; </label> '.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'</div>
         <div class="col-md-3"><label for="presentation"><i class="fa fa-television" aria-hidden="true" title="'.get_string('legend_presentation','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; </label> '.get_string('legend_presentation','mod_bigbluebuttonbn').'</div>

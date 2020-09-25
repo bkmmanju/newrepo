@@ -536,5 +536,6 @@ $string['legend_delete'] = 'Delete(!!Careful!!)';
 
 $string['legend_copyrecording'] = 'Copy recording link';
 $string['legend_attendance'] = 'Attendance report';
+$string['availibility'] = 'Based on your role some functionalities area not available.';
 
 
