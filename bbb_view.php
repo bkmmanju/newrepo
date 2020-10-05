@@ -130,23 +130,30 @@ switch (strtolower($action)) {
         //Manju: Update the logged out user details.24/09/2020.
     foreach ($meetinginfo['attendees'] as $meetkey => $meetvalue) {
         //Check for the user present in attendance table.
-        $user = $DB->get_record_sql('SELECT * FROM {bigbluebutton_attendance} WHERE userid = '.$meetvalue->userID.' AND  meetingid = "'.$meetinginfo['meetingID'].'" ORDER BY jointime DESC LIMIT 1');
+        // $user = $DB->get_record_sql('SELECT * FROM {bigbluebutton_attendance} WHERE userid = '.$meetvalue->userID.' AND  meetingid = "'.$meetinginfo['meetingID'].'" ORDER BY jointime DESC LIMIT 1');
+        //Making the query work for both sql servers.
+        $recordingid = $meetinginfo['meetingID'];
+        $uid = $meetvalue->userID;
+        $user = $DB->get_record_sql("SELECT * FROM {bigbluebutton_attendance} WHERE meetingid = '$recordingid' AND userid = '$uid' ORDER BY jointime DESC LIMIT 1");
+        if(!empty($user)){
+            $update = new stdClass();
+            $update->id = $user->id;
+            $update->course = $user->course;
+            $update->bigbluebuttonbnid = $user->bigbluebuttonbnid;
+            $update->userid = $user->userid;
+            $update->jointime = $user->jointime;
+            $update->lefttime = time();
+            $update->recordingid = $meetinginfo['internalMeetingID'];
+            $update->meetingid = $user->meetingid;
+            $update->role = (string)$meetvalue->role;
+            $update->presenter = (string)$meetvalue->isPresenter;
+            $update->listeningonly = (string)$meetvalue->isListeningOnly;
+            $update->clientype = (string)$meetvalue->clientType;
+            $update->extra = '';
+            $DB->update_record("bigbluebutton_attendance", $update);
 
-        $update = new stdClass();
-        $update->id = $user->id;
-        $update->course = $user->course;
-        $update->bigbluebuttonbnid = $user->bigbluebuttonbnid;
-        $update->userid = $user->userid;
-        $update->jointime = $user->jointime;
-        $update->lefttime = time();
-        $update->recordingid = $meetinginfo['internalMeetingID'];
-        $update->meetingid = $user->meetingid;
-        $update->role = (string)$meetvalue->role;
-        $update->presenter = (string)$meetvalue->isPresenter;
-        $update->listeningonly = (string)$meetvalue->isListeningOnly;
-        $update->clientype = (string)$meetvalue->clientType;
-        $update->extra = '';
-        $DB->update_record("bigbluebutton_attendance", $update);
+        }
+
     }
     //Manju: changes ends.
         // Check the origin page.

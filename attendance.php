@@ -23,6 +23,7 @@
  */
 require_once('../../config.php');
 require_once('lib.php');
+require_once(__DIR__.'/locallib.php');
 $recordid = required_param('recordid', PARAM_RAW);
 $cmid = required_param('cmid', PARAM_INT);
 global $DB, $USER, $SESSION,$CFG;  
@@ -52,45 +53,75 @@ $PAGE->requires->js(new moodle_url($CFG->wwwroot.'/mod/bigbluebuttonbn/js/vfs_fo
 
 echo $OUTPUT->header();
 //get all the records related to the recordid.
-$records = $DB->get_records("bigbluebutton_attendance",array('recordingid'=>$recordid));
+$records = $DB->get_records_sql("SELECT DISTINCT * FROM {bigbluebutton_attendance} WHERE recordingid ='$recordid'");
 $attendancetable = new \html_table();
 $attendancetable->id = "attendance" ;
-$attendancetable->head = array(get_string('serialno','mod_bigbluebuttonbn'),
+$attendancetable->head = array(
+	get_string('serialno','mod_bigbluebuttonbn'),
 	get_string('view_recording_name','mod_bigbluebuttonbn'),
+	get_string('meetingname','mod_bigbluebuttonbn'),
+	get_string('view_recording_list_date','mod_bigbluebuttonbn'),
+	get_string('lectureduration','mod_bigbluebuttonbn'),
 	get_string('starttime','mod_bigbluebuttonbn'),
 	get_string('endtime','mod_bigbluebuttonbn'),
-	get_string('duration','mod_bigbluebuttonbn'));
+	get_string('participantduration','mod_bigbluebuttonbn'));
 
 //Create table here.
 if(!empty($records)){
 	$counter = 1;
 	foreach ($records as $record) {
+		$meetinginfo = bigbluebuttonbn_get_recordings_array($record->meetingid, array($record->recordingid));
+		$meetingname = $meetinginfo[$record->recordingid]['meetingName'];
+		$meettingstart = date("d-m-Y",$meetinginfo[$record->recordingid]['startTime']/1000);
+		$meetingduration = bigblubutton_time_duration($meetinginfo[$record->recordingid]['startTime']/1000,$meetinginfo[$record->recordingid]['endTime']/1000,"M");
 		$user = $DB->get_record('user',array('id'=>$record->userid));
 		$fullname = fullname($user);
-		// Declare and define two dates 
-		$date1 = strtotime(date("Y-m-d G:i:s",$record->jointime));  
-		$date2 = strtotime(date("Y-m-d G:i:s",$record->lefttime));
-		// Formulate the Difference between two dates 
-		$diff = abs($date2 - $date1);
-		$years = floor($diff / (365*60*60*24));  
-		$months = floor(($diff - $years * 365*60*60*24) 
-			/ (30*60*60*24));  
-		$days = floor(($diff - $years * 365*60*60*24 -  
-			$months*30*60*60*24)/ (60*60*24)); 
-		$hours = floor(($diff - $years * 365*60*60*24  
-			- $months*30*60*60*24 - $days*60*60*24) 
-		/ (60*60));
-		$minutes = floor(($diff - $years * 365*60*60*24  
-			- $months*30*60*60*24 - $days*60*60*24  
-			- $hours*60*60)/ 60); 
-
-		$duration = $minutes.' Mins';
-		$attendancetable->data[] = array($counter,$fullname,date("Y-m-d G:i:s",$record->jointime),date("Y-m-d G:i:s",$record->lefttime),$duration);
+		$duration = bigblubutton_time_duration($record->jointime,$record->lefttime,"M");
+		
+		$attendancetable->data[] = array($counter,$fullname,$meetingname,$meettingstart,$meetingduration,date("Y-m-d G:i:s",$record->jointime),date("Y-m-d G:i:s",$record->lefttime),$duration);
 		$counter++;
 	}
 }
 $html='';
-$html.= html_writer::table($attendancetable);
+$html.=html_writer::start_div('container');
+
+$html.=html_writer::start_div('row p-4');
+
+
+$html.=html_writer::start_div('col-md-3');
+$html.=html_writer::start_tag('h4');
+$html.=get_string('sessiontitle','mod_bigbluebuttonbn').$meetingname;
+$html.=html_writer::end_tag('h4');
+$html.=html_writer::end_div();
+
+$html.=html_writer::start_div('col-md-3');
+$html.=html_writer::start_tag('h4');
+$html.=get_string('sessiondate','mod_bigbluebuttonbn').$meettingstart;
+$html.=html_writer::end_tag('h4');
+$html.=html_writer::end_div();
+
+$html.=html_writer::start_div('col-md-3');
+$html.=html_writer::start_tag('h4');
+$html.=get_string('sessionduration','mod_bigbluebuttonbn').$meetingduration;
+$html.=html_writer::end_tag('h4');
+$html.=html_writer::end_div();
+
+$html.=html_writer::start_div('col-md-3');
+$html.=html_writer::start_tag('h4');
+$html.=get_string('numberofparticipants','mod_bigbluebuttonbn').count($records);
+$html.=html_writer::end_tag('h4');
+$html.=html_writer::end_div();
+
+$html.=html_writer::end_div();
+
+$html.=html_writer::start_div('row');
+$html.=html_writer::start_div('col-md-12 text-left');
+$html.=html_writer::table($attendancetable);
+$html.=html_writer::end_div();
+$html.=html_writer::end_div();
+
+$html.=html_writer::end_div();
+
 $html.="<script>$(document).ready( function () {
 	$('#attendance').DataTable({
 		dom: 'lBfrtip',

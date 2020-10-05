@@ -163,22 +163,26 @@ function bigbluebuttonbn_view_render_recording_section(&$bbbsession, $type, $ena
 
         <div class="row">
         
-        <div class="col-md-3"><label for="download"><i class="fa fa-download" aria-hidden="true" title="'.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'"></i> &nbsp;&nbsp; </label> '.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'</div>
-        <div class="col-md-3"><label for="download"><i class="fa fa-download text-success" aria-hidden="true" title="'.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'"></i> &nbsp;&nbsp; </label> '.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="download"><i class="fa fa-download bbb-viewpage-legend-orange" aria-hidden="true" title="'.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'"></i>&nbsp;</label> '.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="download"><i class="fa fa-download bbb-viewpage-legend-green" aria-hidden="true" title="'.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'"></i></label>&nbsp;&nbsp; '.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'</div>
         <div class="col-md-3"><label for="presentation"><i class="fa fa-television" aria-hidden="true" title="'.get_string('legend_presentation','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; </label> '.get_string('legend_presentation','mod_bigbluebuttonbn').'</div>
-        <div class="col-md-3"><label for="zip"><i class="fa fa-file-archive-o" aria-hidden="true" title="'.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3">&nbsp;<label for="zip"><i class="fa fa-file-archive-o bbb-viewpage-legend-orange" aria-hidden="true" title="'.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'</div>
         </div>';
         $output .='<div class="row">
-        <div class="col-md-3"><label for="zip"><i class="fa fa-file-archive-o text-success" aria-hidden="true" title="'.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="zip"><i class="fa fa-file-archive-o bbb-viewpage-legend-green" aria-hidden="true" title="'.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'</div>
         <div class="col-md-3"><label for="download"><i class="fa fa-print" aria-hidden="true" title="'.get_string('legend_forcepublish','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_forcepublish','mod_bigbluebuttonbn').'</div>
-        <div class="col-md-3"><label for="presentation"><i class="icon fa fa-eye fa-fw iconsmall" title="'.get_string('legend_unpublish','mod_bigbluebuttonbn').'" aria-label="Unpublish"></i> </label> '.get_string('legend_unpublish','mod_bigbluebuttonbn').'</div>
-        <div class="col-md-3"><label for="zip"><i class="icon fa fa-trash fa-fw iconsmall text-danger" title="'.get_string('legend_delete','mod_bigbluebuttonbn').'" aria-label="Delete"></i> </label> '.get_string('legend_delete','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="presentation"><i class="icon fa fa-eye fa-fw iconsmall" title="'.get_string('legend_unpublish','mod_bigbluebuttonbn').'" aria-label="Unpublish"></i>&nbsp; </label> '.get_string('legend_unpublish','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="zip"><i class="icon fa fa-trash fa-fw iconsmall text-danger" title="'.get_string('legend_delete','mod_bigbluebuttonbn').'" aria-label="Delete"></i></label> '.get_string('legend_delete','mod_bigbluebuttonbn').'</div>
         <div class="col-md-3"></div>
         </div>';
         $output .='<div class="row">
         <div class="col-md-3"><label for="attendance"><i class="fa fa-clipboard" aria-hidden="true" title="'.get_string('legend_copyrecording','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_copyrecording','mod_bigbluebuttonbn').'</div>
-        <div class="col-md-3"><label for="copy"><i class="fa fa-users" aria-hidden="true" title="'.get_string('legend_attendance','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;</label> '.get_string('legend_attendance','mod_bigbluebuttonbn').'</div>
-        </div></div>';
+        <div class="col-md-3"><label for="copy"><i class="fa fa-users" aria-hidden="true" title="'.get_string('legend_attendance','mod_bigbluebuttonbn').'"></i>&nbsp;</label> '.get_string('legend_attendance','mod_bigbluebuttonbn').'</div>
+        <div class="col-md-3"><label for="copyvideo">
+        <i class="fa fa-clone" aria-hidden="true" title="'.get_string('downloadvideolink','mod_bigbluebuttonbn').'"></i>&nbsp;</label>&nbsp;&nbsp; '.get_string('downloadvideolink','mod_bigbluebuttonbn').'</div>
+        </div>
+
+        </div>';
         $output .= html_writer::tag('h4', get_string('view_section_title_recordings', 'bigbluebuttonbn'));
         $output .= html_writer::end_tag('div');
     }

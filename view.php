@@ -46,7 +46,10 @@ $course = $viewinstance['course'];
 $bigbluebuttonbn = $viewinstance['bigbluebuttonbn'];
 
 require_login($course, true, $cm);
-$PAGE->requires->js(new moodle_url($CFG->wwwroot.'/mod/bigbluebuttonbn/js/custom.js'));
+
+$PAGE->requires->js(new moodle_url($CFG->wwwroot.'/mod/bigbluebuttonbn/js/clipboard.min.js'),true);
+$PAGE->requires->js(new moodle_url($CFG->wwwroot.'/mod/bigbluebuttonbn/js/custom.js'),true);
+
 
 // In locallib.
 bigbluebuttonbn_event_log(\mod_bigbluebuttonbn\event\events::$events['view'], $bigbluebuttonbn);

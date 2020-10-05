@@ -1632,24 +1632,30 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		$studentdownloadvideo='';
 		if(!empty($exploaddata)){
             //creating links for admin and teacher.
-			$rec = $DB->get_record_sql('SELECT * FROM {bigbluebutton_publish} WHERE meetingid ="'.$recording['recordID'].'"');
-			$publishclass ="";
+			//$rec = $DB->get_record_sql('SELECT * FROM {bigbluebutton_publish} WHERE meetingid ="'.$recording['recordID'].'"');
 
-			if($rec->publishflag == 1){
-				$publishclass =" text-success";
-			}else if($rec->publishflag == 0){
-				$publishclass = " inactiveLink";
-			}
-
+			$trecid = $recording['recordID'];
+			$rec = $DB->get_record_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid = '$trecid'");
 			$publishurl1 = $DB->get_record_sql("SELECT * FROM {config} WHERE name = 'mod_bigbluebuttonbnpublish_url'");
 			$vidurl = $publishurl1->value.'/recorddownload.php?';
 
 			$videodownlink = $vidurl.'recordid='.$recording['recordID'].'&type=mp4';
-			$finalvideolink = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-download" aria-hidden="true"></i></a>';
+
+			$publishclass ="";
+			$remotevideo = $publishurl1->value.'/recording/'.$recording['recordID'].'/lecture.mp4';
+			$handle1 = @fopen($remotevideo, 'r');
+			if($handle1){
+				$publishclass =' style="background-color: green !important;color:white !important;"';
+			}else{
+				$publishclass =' style="background-color:orange !important;color:white !important;pointer-events: none !important;"';
+			}
+
+
+			$finalvideolink = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate"'.$publishclass.'><i class="fa fa-download" aria-hidden="true"></i></a>';
 			$studentvideo = $DB->get_field('bigbluebuttonbn','studentdownload',array('meetingid'=>$exploaddata['0']));
             //if download link enabled for students.
 			if($studentvideo == 1){
-				$studentdownloadvideo = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-download" aria-hidden="true"></i></a>';
+				$studentdownloadvideo = '<a href="'.$videodownlink.'" class="action-icon btn-action text-truncate" '.$publishclass.'><i class="fa fa-download" aria-hidden="true"></i></a>';
 			}
 		}
         //Manju:here getting the presentation button.
@@ -1664,7 +1670,7 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 		//the above logic is wrong we should check with capability Mihir 21 Sep 2020
 		global $COURSE;
 		$isteacheranywhere = false;
-		$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
+		$coursecontext = context_course::instance($COURSE->id);
 		if (has_capability('moodle/course:update', $coursecontext)) {
 			/** do stuff here */
 			$isteacheranywhere = true;
@@ -1683,7 +1689,7 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			$url = $publishurl1->value.'/recorddownload.php?';
 
 			$downloadhref = $url.'recordid='.$recording['recordID'].'&type=zip';
-			$recordingtypes.= '&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$downloadhref.'" class="action-icon btn-action text-truncate'.$publishclass.'"><i class="fa fa-file-archive-o" aria-hidden="true"></i></a>';
+			$recordingtypes.= '&nbsp;&nbsp;&nbsp;&nbsp;<a href="'.$downloadhref.'" class="action-icon btn-action text-truncate" '.$publishclass.'><i class="fa fa-file-archive-o" aria-hidden="true"></i></a>';
 			//Manju:Adding forcepublish button.15/09/2020.
 			$forcepublishhref = $CFG->wwwroot.'/mod/bigbluebuttonbn/forcepublish.php?recordid='.$recording['recordID'].'&cmid='.$rec->cmid;
 			$recordingtypes .= '&nbsp;&nbsp;<a href="'.$forcepublishhref.'" class="action-icon btn-action text-truncate"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;';
@@ -1695,8 +1701,10 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			$webmurl = $reqserverurl.'/playback/presentation/2.0/playback.html?meetingId='.$recording['recordID'];
 
 			$copyid ="c".$recording['recordID'];
+			
+			$recordingtypes.="<button class='clipboard_video action-icon btn-action text-truncate copy-button' data-clipboard-text='".$videodownlink."'><i class='fa fa-clone' aria-hidden='true'></i></button>";
 
-			$recordingtypes.="<button name='copy' value='".$copyid."' onclick='f1(this)'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
+			$recordingtypes.="<button class='clipboard action-icon btn-action text-truncate copy-button' data-clipboard-text='".$webmurl."'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
 			$recordingtypes.='<input type="text" value="'.$webmurl.'" id="'.$copyid.'" style="width:5px;opacity:0;">';
 		//copy to clipboard option ends.
 		}else{

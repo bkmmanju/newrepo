@@ -37,10 +37,21 @@ if(!empty($publishedrecs)){
 
 	//Get the complete course module from cmid.
 		$recobject = $DB->get_record('course_modules',array('id'=>$rec->cmid));
-				// sometimes teacher may delete a course module at later point ; Mihir 25 Sep 2020
+	// sometimes teacher may delete a course module at later point ; Mihir 25 Sep 2020
 		if (empty($recobject)) {
-			continue;
+
+	// this rec cmid does not exist so we should simply update the publishflag as a non 0 so that next time it does not get picked up
+		$upduser = new stdClass();
+		$upduser->id = $rec->id;
+		$upduser->plublishdate = '';
+		$upduser->publishflag = 2; 
+		// this does not exist in course modules table
+		$upduser->filesize = '';
+		$DB->update_record('bigbluebutton_publish', $upduser);
+
+		continue;
 		}
+		//end of 25 sep 2020
 		$context = context_module::instance($recobject->id);
 		$contextid = $context->id;
 		$bigbluebutton = $DB->get_record('bigbluebuttonbn',array('id'=>$recobject->instance));
@@ -118,7 +129,8 @@ if(!empty($publishedrecs)){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $remoteurl); 
 		    //Remote Location URL	
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+		//curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE); // making it
 	    //Return data instead printing directly in Browser.
 		$output = curl_exec($ch);
 		curl_error($ch);

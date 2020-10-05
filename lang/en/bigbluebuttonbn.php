@@ -513,8 +513,8 @@ $string['unrepublished'] = 'Unpublished';
 $string['publishreport'] = 'Publish Reports';
 $string['downloads'] = 'Downloads';
 
-$string['starttime'] = 'Start Time';
-$string['endtime'] = 'End Time';
+$string['starttime'] = 'Participant Start Time';
+$string['endtime'] = 'Participant End Time';
 $string['duration'] = 'Duration';
 $string['serialno'] = 'Sl No';
 $string['attendance'] = 'Attendance Report';
@@ -536,6 +536,17 @@ $string['legend_delete'] = 'Delete(!!Careful!!)';
 
 $string['legend_copyrecording'] = 'Copy recording link';
 $string['legend_attendance'] = 'Attendance report';
-$string['availibility'] = 'Based on your role some functionalities area not available.';
+$string['availibility'] = 'Based on your role some functionalities may not be available.';
+
+//Manju: for attendance page. 29/09/2020.
+$string['meetingname'] = 'Lecture Title';
+$string['lectureduration'] = 'Lecture Duration';
+$string['participantduration'] = 'Participant Duration';
+$string['sessiontitle'] = '<u>Session Title</u> : ';
+$string['sessiondate'] = '<u>Session Date</u> : ';
+$string['sessionduration'] = '<u>Session Duration</u> : ';
+$string['numberofparticipants'] = '<u>Number of Participants</u> : ';
+
+$string['downloadvideolink'] = 'Copy download video link';
 
 

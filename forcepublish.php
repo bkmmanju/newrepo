@@ -146,10 +146,12 @@ if(!empty($rec)){
 
 		$remoteurl = $url.'?'.$params;
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $remoteurl); //Remote Location URL
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$output = curl_exec($ch);
-		print_object($output);die;
+		curl_setopt($ch, CURLOPT_URL, $remoteurl); 
+		//Remote Location URL
+		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE); 
+		// making it
+		//$output = curl_exec($ch);
 
 		curl_error($ch);
 		curl_close($ch);
@@ -159,19 +161,19 @@ if(!empty($rec)){
 
 		//Check the file. if the file is present then proceed.
 		// Open file
-		$handle = @fopen($file, 'r');
+		//$handle = @fopen($file, 'r');
 		$filesize='';
-		if($handle){
-			//Get the file size in bytes.
-			$ch1 = curl_init($file);
-			curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt($ch1, CURLOPT_HEADER, TRUE);
-			curl_setopt($ch1, CURLOPT_NOBODY, TRUE);
-			$data = curl_exec($ch1);
-			$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-			curl_close($ch1);
-			$filesize = isa_convert_bytes_to_specified($size, 'M');
-		}
+		// if($handle){
+		// 	//Get the file size in bytes.
+		// 	$ch1 = curl_init($file);
+		// 	curl_setopt($ch1, CURLOPT_RETURNTRANSFER, TRUE);
+		// 	curl_setopt($ch1, CURLOPT_HEADER, TRUE);
+		// 	curl_setopt($ch1, CURLOPT_NOBODY, TRUE);
+		// 	$data = curl_exec($ch1);
+		// 	$size = curl_getinfo($ch1, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+		// 	curl_close($ch1);
+		// 	$filesize = isa_convert_bytes_to_specified($size, 'M');
+		// }
 		$upduser = new stdClass();
 		$upduser->id = $rec->id;
 		$upduser->plublishdate = time();

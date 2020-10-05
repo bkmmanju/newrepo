@@ -1111,26 +1111,26 @@ function mod_bigbluebuttonbn_pluginfile($course, $cm, $context, $filearea, $args
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false; 
     }
- 
+
     // Make sure the filearea is one of those used by the plugin.
     if ($filearea !== 'backgroundimage') {
         return false;
     }
- 
+
     // Make sure the user is logged in and has access to the module (plugins that are not course modules should leave out the 'cm' part).
     require_login($course, true, $cm);
- 
+
     // Check the relevant capabilities - these may vary depending on the filearea being accessed.
     // if (!has_capability('mod/MYPLUGIN:view', $context)) {
     //     return false;
     // }
- 
+
     // Leave this line out if you set the itemid to null in make_pluginfile_url (set $itemid to 0 instead).
     $itemid = array_shift($args); // The first item in the $args array.
- 
+
     // Use the itemid to retrieve any relevant data records and perform any security checks to see if the
     // user really does have access to the file in question.
- 
+
     // Extract the filename / filepath from the $args array.
     $filename = array_pop($args); // The last item in the $args array.
     if (!$args) {
@@ -1138,19 +1138,19 @@ function mod_bigbluebuttonbn_pluginfile($course, $cm, $context, $filearea, $args
     } else {
         $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
     }
- 
+
     // Retrieve the file from the Files API.
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_bigbluebuttonbn', $filearea, $itemid, $filepath, $filename);
     if (!$file) {
         return false; // The file does not exist.
     }
- 
+
     // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering. 
     send_stored_file($file, 86400, 0, $forcedownload, $options);
 }
 //Manju: inserting into publish table. 10/09/2020.
- function bigbluebutton_publish_insert($insert){
+function bigbluebutton_publish_insert($insert){
     global $DB;
     $exists = $DB->get_records_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid LIKE '%".$insert->meetingid."%'");
     if(empty($exists)){
@@ -1176,4 +1176,34 @@ function isa_convert_bytes_to_specified($bytes, $to, $decimal_places = 1) {
         'G' => number_format($bytes / 1073741824, $decimal_places)
     );
     return isset($formulas[$to]) ? $formulas[$to] : 0;
+}
+
+function bigblubutton_time_duration($d1,$d2,$type){
+    global $DB,$CFG;
+    // Declare and define two dates 
+    $date1 = strtotime(date("Y-m-d G:i:s",$d1));  
+    $date2 = strtotime(date("Y-m-d G:i:s",$d2));
+    // Formulate the Difference between two dates 
+    $diff = abs($date2 - $date1);
+    $years = floor($diff / (365*60*60*24));  
+    $months = floor(($diff - $years * 365*60*60*24) 
+        / (30*60*60*24));  
+    $days = floor(($diff - $years * 365*60*60*24 -  
+        $months*30*60*60*24)/ (60*60*24)); 
+    $hours = floor(($diff - $years * 365*60*60*24  
+        - $months*30*60*60*24 - $days*60*60*24) 
+    / (60*60));
+    $minutes = floor(($diff - $years * 365*60*60*24  
+        - $months*30*60*60*24 - $days*60*60*24  
+        - $hours*60*60)/ 60); 
+    $seconds = floor(($diff - $years * 365*60*60*24  
+       - $months*30*60*60*24 - $days*60*60*24 
+       - $hours*60*60 - $minutes*60));
+    if($type == 'M'){
+        $duration = $minutes.' Mins '.$seconds.' Secs';
+    }else if($type == 'H'){
+        $duration = $hours.' Hrs';
+    }
+    return $duration;
+    
 }
