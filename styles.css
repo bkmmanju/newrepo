@@ -65,3 +65,34 @@
 .bbb_index_form {
     display: inline-block;
 }
+#bigblubuttonbn_recordings_table .text-success{
+    color: #55c2b8 !important;
+}
+
+#page-mod-bigbluebuttonbn-view .copy-button{
+    background: transparent;
+    color: #4a4c50!important;
+    box-shadow: none !important;
+    padding: 4px !important;
+}
+#page-mod-bigbluebuttonbn-view .copy-button:hover{
+    background-color:green !important;
+    color:white !important;
+    padding: 4px !important;
+}
+
+#page-mod-bigbluebuttonbn-view [data-action="delete"]{
+    background-color: red !important;
+    padding: 5px !important;
+    color: white !important;
+    margin-left: 10px !important;
+}
+#page-mod-bigbluebuttonbn-view #bigbluebuttonbn_view_recordings_content .fa-trash{
+    color:white !important;
+}
+.bbb-viewpage-legend-green{
+    color: green !important;
+}
+.bbb-viewpage-legend-orange{
+    color: orange !important;
+}

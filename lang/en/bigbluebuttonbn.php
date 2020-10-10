@@ -25,30 +25,30 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$string['activityoverview'] = 'You have upcoming bigbluebuttonbn sessions';
+$string['activityoverview'] = 'You have upcoming Davy sessions';
 $string['bbbduetimeoverstartingtime'] = 'The due time for this activity must be greater than the starting time';
 $string['bbbdurationwarning'] = 'The maximum duration for this session is %duration% minutes.';
 $string['bbbrecordwarning'] = 'This session may be recorded.';
 $string['bbbrecordallfromstartwarning'] = 'This session is being recorded from start.';
-$string['bigbluebuttonbn:addinstance'] = 'Add a new bigbluebuttonbn room/activity';
-$string['bigbluebuttonbn:join'] = 'Join a bigbluebuttonbn meeting';
+$string['bigbluebuttonbn:addinstance'] = 'Add a new Davy room/activity';
+$string['bigbluebuttonbn:join'] = 'Join a Davy meeting';
 $string['bigbluebuttonbn:view'] = 'View a room/activity';
-$string['bigbluebuttonbn:managerecordings'] = 'Manage bigbluebuttonbn recordings';
+$string['bigbluebuttonbn:managerecordings'] = 'Manage Davy recordings';
 $string['bigbluebuttonbn:meeting'] = 'Create instances with live meeting capabilities';
 $string['bigbluebuttonbn:recording'] = 'Create instances with recording capabilities';
-$string['bigbluebuttonbn'] = 'BigBlueButton';
-$string['indicator:cognitivedepth'] = 'BigBlueButtonBN cognitive';
-$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a BigBlueButtonBN activity.';
-$string['indicator:socialbreadth'] = 'BigBlueButtonBN social';
-$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the student in a BigBlueButtonBN activity.';
-$string['modulename'] = 'BigBlueButtonBN';
-$string['modulenameplural'] = 'BigBlueButtonBN';
-$string['modulename_help'] = 'BigBlueButtonBN lets you create from within Moodle links to real-time on-line classrooms using BigBlueButton, an open source web conferencing system for distance education.
+$string['bigbluebuttonbn'] = 'Davy';
+$string['indicator:cognitivedepth'] = 'Davy cognitive';
+$string['indicator:cognitivedepth_help'] = 'This indicator is based on the cognitive depth reached by the student in a Davy activity.';
+$string['indicator:socialbreadth'] = 'Davy social';
+$string['indicator:socialbreadth_help'] = 'This indicator is based on the social breadth reached by the student in a Davy activity.';
+$string['modulename'] = 'Davy';
+$string['modulenameplural'] = 'Davy';
+$string['modulename_help'] = 'Davy lets you create from within Moodle links to real-time on-line classrooms using Davy, an open source web conferencing system for distance education.
 
-Using BigBlueButtonBN you can specify for the title, description, calendar entry (which gives a date range for joining the session), groups, and details about the recording of the on-line session.';
-$string['modulename_link'] = 'BigBlueButtonBN/view';
-$string['pluginadministration'] = 'BigBlueButton administration';
-$string['pluginname'] = 'BigBlueButtonBN';
+Using Davy you can specify for the title, description, calendar entry (which gives a date range for joining the session), groups, and details about the recording of the on-line session.';
+$string['modulename_link'] = 'Davy/view';
+$string['pluginadministration'] = 'Davy administration';
+$string['pluginname'] = 'Davy';
 
 $string['removedevents'] = 'Deleted events';
 $string['removedtags'] = 'Deleted tags';
@@ -61,10 +61,10 @@ $string['resetrecordings'] = 'Delete recordings';
 $string['resetlogs_help'] = 'Deleting the logs will cause the lost of references to recordings';
 $string['resetrecordings_help'] = 'Deleting the recordings will make them inaccessible from anywhere and it can not be undone';
 
-$string['search:activity'] = 'BigBlueButtonBN - activity information';
-$string['search:tags'] = 'BigBlueButtonBN - tags information';
+$string['search:activity'] = 'Davy - activity information';
+$string['search:tags'] = 'Davy - tags information';
 
-$string['privacy:metadata:bigbluebuttonbn'] = 'Stores the configuration for the room or activity that defines the features and general behaviour of the BigBlueButton session.';
+$string['privacy:metadata:bigbluebuttonbn'] = 'Stores the configuration for the room or activity that defines the features and general behaviour of the Davy session.';
 $string['privacy:metadata:bigbluebuttonbn:participants'] = 'A list of rules that define the role users will in the live meeting. A user ID may be stored as permissions can be granted per role or user.';
 $string['privacy:metadata:bigbluebuttonbn_logs'] = 'Stores events triggered when using the plugin.';
 $string['privacy:metadata:bigbluebuttonbn_logs:userid'] = 'The user ID of the user who triggered the event.';
@@ -72,21 +72,21 @@ $string['privacy:metadata:bigbluebuttonbn_logs:timecreated'] = 'The time at whic
 $string['privacy:metadata:bigbluebuttonbn_logs:meetingid'] = 'The meeting ID the user had access to.';
 $string['privacy:metadata:bigbluebuttonbn_logs:log'] = 'The type of event triggered by the user.';
 $string['privacy:metadata:bigbluebuttonbn_logs:meta'] = 'May include extra information related to the meeting or the recording afected by the event.';
-$string['privacy:metadata:bigbluebutton'] = 'In order to create and join BigBlueButton sessions, user data needs to be exchanged with the server.';
-$string['privacy:metadata:bigbluebutton:userid'] = 'The userid of the user accessing the BigBlueButton server.';
-$string['privacy:metadata:bigbluebutton:fullname'] = 'The fullname of the user accessing the BigBlueButton server.';
+$string['privacy:metadata:bigbluebutton'] = 'In order to create and join Davy sessions, user data needs to be exchanged with the server.';
+$string['privacy:metadata:bigbluebutton:userid'] = 'The userid of the user accessing the Davy server.';
+$string['privacy:metadata:bigbluebutton:fullname'] = 'The fullname of the user accessing the Davy server.';
 
 $string['config_general'] = 'General configuration';
 $string['config_general_description'] = 'These settings are <b>always</b> used';
-$string['config_server_url'] = 'BigBlueButton Server URL';
-$string['config_server_url_description'] = 'The URL of your BigBlueButton server must end with /bigbluebutton/. (This default URL is for a BigBlueButton server provided by Blindside Networks that you can use for testing.)';
-$string['config_shared_secret'] = 'BigBlueButton Shared Secret';
-$string['config_shared_secret_description'] = 'The security salt of your BigBlueButton server.  (This default salt is for a BigBlueButton server provided by Blindside Networks that you can use for testing.)';
+$string['config_server_url'] = 'Davy Server URL';
+$string['config_server_url_description'] = 'The URL of your Davy server must end with /bigbluebutton/. (This default URL is for a Davy server provided by Blindside Networks that you can use for testing.)';
+$string['config_shared_secret'] = 'Davy Shared Secret';
+$string['config_shared_secret_description'] = 'The security salt of your Davy server.  (This default salt is for a Davy server provided by Blindside Networks that you can use for testing.)';
 
 $string['config_recording'] = 'Configuration for "Record meeting" feature';
 $string['config_recording_description'] = 'These settings are feature specific';
 $string['config_recording_default'] = 'Recording feature enabled by default';
-$string['config_recording_default_description'] = 'If enabled the sessions created in BigBlueButton will have recording capabilities.';
+$string['config_recording_default_description'] = 'If enabled the sessions created in Davy will have recording capabilities.';
 $string['config_recording_editable'] = 'Recording feature can be edited';
 $string['config_recording_editable_description'] = 'If checked the interface includes an option for enable and disable the recording feature.';
 $string['config_recording_icons_enabled'] = 'Icons for recording management';
@@ -183,16 +183,16 @@ $string['config_sendnotifications_enabled'] = 'Send notifications enabled';
 $string['config_sendnotifications_enabled_description'] = 'If enabled the UI for editing the activity includes an option for sending a notification to enrolled user when the activity is added or updated.';
 
 $string['config_extended_capabilities'] = 'Configuration for extended capabilities';
-$string['config_extended_capabilities_description'] = 'Configuration for extended capabilities when the BigBlueButton server offers them.';
+$string['config_extended_capabilities_description'] = 'Configuration for extended capabilities when the Davy server offers them.';
 $string['config_uidelegation_enabled'] = 'UI delegation is enabled';
-$string['config_uidelegation_enabled_description'] = 'These settings enable or disable the UI delegation to the BigBlueButton server.';
+$string['config_uidelegation_enabled_description'] = 'These settings enable or disable the UI delegation to the Davy server.';
 $string['config_recordingready_enabled'] = 'Send notifications when a recording is ready';
 $string['config_recordingready_enabled_description'] = 'Enable the plugin for sending notifications when the recording is ready. (It will only work if the script post_publish_recording_ready_callback is enabled in the BigBlueButton server)';
 $string['config_meetingevents_enabled'] = 'Register live events';
 $string['config_meetingevents_enabled_description'] = 'Enable the plugin for accepting and processing live events after the session ends. (This feature is experimental and will only work if the BigBlueButton server is capable of processing post_events scripts)';
 
 $string['config_warning_curl_not_installed'] = 'This feature requires the CURL extension for php installed and enabled. The settings will be accessible only if this condition is fulfilled.';
-$string['config_warning_bigbluebuttonbn_cfg_deprecated'] = 'BigBlueButtonBN is making use of config.php with a global variable that has been deprecated. Please convert the file as it will not be supported in future versions';
+$string['config_warning_bigbluebuttonbn_cfg_deprecated'] = 'Davy is making use of config.php with a global variable that has been deprecated. Please convert the file as it will not be supported in future versions';
 
 $string['config_muteonstart'] = 'Configuration for "Mute on Start" feature';
 $string['config_muteonstart_description'] = 'These settings enable or disable options in the UI and also define default values for these options.';
@@ -201,7 +201,7 @@ $string['config_muteonstart_default_description'] = 'If enabled the session will
 $string['config_muteonstart_editable'] = 'Mute on start can be edited';
 $string['config_muteonstart_editable_description'] = 'Mute on start by default can be edited when the instance is added or updated.';
 
-$string['general_error_unable_connect'] = 'Unable to connect. Please check the url of the BigBlueButton server AND check to see if the BigBlueButton server is running.';
+$string['general_error_unable_connect'] = 'Unable to connect. Please check the url of the Davy server AND check to see if the Davy server is running.';
 $string['general_error_not_allowed_to_create_instances'] = 'User is not allowed to create any type of instances.';
 
 $string['index_confirm_end'] = 'Do you wish to end the virtual class?';
@@ -246,8 +246,8 @@ $string['mod_form_field_voicebridge_notunique_error'] = 'Not a unique value. Thi
 $string['mod_form_field_wait'] = 'Wait for moderator';
 $string['mod_form_field_wait_help'] = 'Viewers must wait until a moderator enters the session before they can do so';
 $string['mod_form_field_welcome'] = 'Welcome message';
-$string['mod_form_field_welcome_help'] = 'Replaces the default message setted up for the BigBlueButton server. The message can includes keywords  (%%CONFNAME%%, %%DIALNUM%%, %%CONFNUM%%) which will be substituted automatically, and also html tags like <b>...</b> or <i></i> ';
-$string['mod_form_field_welcome_default'] = '<br>Welcome to <b>%%CONFNAME%%</b>!<br><br>For help on using BigBlueButton see these (short)  <a href="event:http://www.bigbluebutton.org/content/videos"><u>tutorial videos</u></a>.<br><br>To join the audio bridge click the phone icon (top center). <b>Please use a headset to avoid causing background noise for others.</b>';
+$string['mod_form_field_welcome_help'] = 'Replaces the default message setted up for the Davy server. The message can includes keywords  (%%CONFNAME%%, %%DIALNUM%%, %%CONFNUM%%) which will be substituted automatically, and also html tags like <b>...</b> or <i></i> ';
+$string['mod_form_field_welcome_default'] = '<br>Welcome to <b>%%CONFNAME%%</b>!<br><br>For help on using Davy see these (short)  <a href="event:http://www.bigbluebutton.org/content/videos"><u>tutorial videos</u></a>.<br><br>To join the audio bridge click the phone icon (top center). <b>Please use a headset to avoid causing background noise for others.</b>';
 $string['mod_form_field_participant_add'] = 'Add participant';
 $string['mod_form_field_participant_list'] = 'Participant list';
 $string['mod_form_field_participant_list_type_all'] = 'All users enrolled';
@@ -284,11 +284,11 @@ $string['calendarstarts'] = '{$a} is scheduled for';
 $string['view_error_no_group_student'] = 'You have not been enrolled in a group. Please contact your Teacher or the Administrator.';
 $string['view_error_no_group_teacher'] = 'There are no groups configured yet. Please set up groups or contact the Administrator.';
 $string['view_error_no_group'] = 'There are no groups configured yet. Please set up groups before trying to join the meeting.';
-$string['view_error_unable_join_student'] = 'Unable to connect to the BigBlueButton server. Please contact your Teacher or the Administrator.';
-$string['view_error_unable_join_teacher'] = 'Unable to connect to the BigBlueButton server. Please contact the Administrator.';
-$string['view_error_unable_join'] = 'Unable to join the meeting. Please check the url of the BigBlueButton server AND check to see if the BigBlueButton server is running.';
-$string['view_error_bigbluebutton'] = 'BigBlueButton responded with errors. {$a}';
-$string['view_error_create'] = 'The BigBlueButton server responded with an error message, the meeting could not be created.';
+$string['view_error_unable_join_student'] = 'Unable to connect to the Davy server. Please contact your Teacher or the Administrator.';
+$string['view_error_unable_join_teacher'] = 'Unable to connect to the Davy server. Please contact the Administrator.';
+$string['view_error_unable_join'] = 'Unable to join the meeting. Please check the url of the Davy server AND check to see if the Davy server is running.';
+$string['view_error_bigbluebutton'] = 'Davy responded with errors. {$a}';
+$string['view_error_create'] = 'The Davy server responded with an error message, the meeting could not be created.';
 $string['view_error_max_concurrent'] = 'Number of concurrent meetings allowed has been reached.';
 $string['view_error_userlimit_reached'] = 'The number of users allowed in a meeting has been reached.';
 $string['view_error_url_missing_parameters'] = 'There are parameters missing in this URL';
@@ -299,7 +299,7 @@ $string['view_groups_selection_join'] = 'Join';
 $string['view_groups_selection'] = 'Select the group you want to join and confirm the action';
 $string['view_login_moderator'] = 'Logging in as moderator ...';
 $string['view_login_viewer'] = 'Logging in as viewer ...';
-$string['view_noguests'] = 'The BigBlueButtonBN is not open to guests';
+$string['view_noguests'] = 'The Davy is not open to guests';
 $string['view_nojoin'] = 'You are not in a role allowed to join this session.';
 $string['view_recording_list_actionbar_edit'] = 'Edit';
 $string['view_recording_list_actionbar_delete'] = 'Delete';
@@ -371,7 +371,7 @@ $string['view_message_conference_wait_for_moderator'] = 'Waiting for a moderator
 $string['view_message_conference_in_progress'] = 'This conference is in progress.';
 $string['view_message_conference_has_ended'] = 'This conference has ended.';
 $string['view_message_tab_close'] = 'This tab/window must be closed manually';
-$string['view_message_recordings_disabled'] = 'Recordings were disabled on this server. BigBlueButtonBN instances for recordings only can not be used.';
+$string['view_message_recordings_disabled'] = 'Recordings were disabled on this server. Davy instances for recordings only can not be used.';
 $string['view_message_importrecordings_disabled'] = 'Feature for import recording links is disabled on this server.';
 
 $string['view_groups_selection_warning'] = 'There is a conference room for each group and you have access to more than one. Be sure to select the correct one.';
@@ -386,13 +386,13 @@ $string['view_recording_link_warning'] = 'This is a link pointing to a recording
 $string['view_recording_delete_confirmation'] = 'Are you sure to delete this {$a}?';
 $string['view_recording_delete_confirmation_warning_s'] = 'This recording has {$a} link associated that was imported in a different course or activity. If the recording is deleted that link will also be removed';
 $string['view_recording_delete_confirmation_warning_p'] = 'This recording has {$a} links associated that were imported in different courses or activities. If the recording is deleted those links will also be removed';
-$string['view_recording_publish_link_deleted'] = 'This link can not be re-published because the actual recording does not exist in the current BigBlueButton server. The link should be removed.';
+$string['view_recording_publish_link_deleted'] = 'This link can not be re-published because the actual recording does not exist in the current Davy server. The link should be removed.';
 $string['view_recording_publish_link_not_published'] = 'This link can not be re-published because the actual recording is unpublished';
 $string['view_recording_unpublish_confirmation'] = 'Are you sure to unpublish this {$a}?';
 $string['view_recording_unpublish_confirmation_warning_s'] = 'This recording has {$a} link associated that was imported in a different course or activity. If the recording is unpublished that link will also be unpublished';
 $string['view_recording_unpublish_confirmation_warning_p'] = 'This recording has {$a} links associated that were imported in different courses or activities. If the recording is unpublished those links will also be unpublished';
 $string['view_recording_import_confirmation'] = 'Are you sure to import this recording?';
-$string['view_recording_unprotect_link_deleted'] = 'This link can not be un-protected because the actual recording does not exist in the current BigBlueButton server. The link should be removed.';
+$string['view_recording_unprotect_link_deleted'] = 'This link can not be un-protected because the actual recording does not exist in the current Davy server. The link should be removed.';
 $string['view_recording_unprotect_link_not_unprotected'] = 'This link can not be un-protected because the actual recording is protected';
 $string['view_recording_actionbar'] = 'Toolbar';
 $string['view_recording_activity'] = 'Activity';
@@ -455,9 +455,9 @@ $string['email_footer_sent_by'] = 'This automatic notification message was sent 
 $string['email_footer_sent_from'] = 'from the course';
 
 $string['view_error_meeting_not_running'] = 'Something went wrong, the meeting is not running.';
-$string['view_error_current_state_not_found'] = 'Current state was not found. The recording may have been deleted or the BigBlueButton server is not compatible with the action performed.';
+$string['view_error_current_state_not_found'] = 'Current state was not found. The recording may have been deleted or the Davy server is not compatible with the action performed.';
 $string['view_error_action_not_completed'] = 'Action could not be completed';
-$string['view_warning_default_server'] = 'This Moodle server is making use of the BigBlueButton testing server that comes pre-configured by default. It should be replaced for production.';
+$string['view_warning_default_server'] = 'This Moodle server is making use of the Davy testing server that comes pre-configured by default. It should be replaced for production.';
 
 $string['view_room'] = 'View room';
 $string['mod_form_block_clienttype'] = 'Web Client Technology';
@@ -470,8 +470,83 @@ $string['config_clienttype_default_description'] = 'Choose between the classical
 $string['config_clienttype_description'] = 'This setting enable/disable the Web Client choice for each room.';
 $string['config_clienttype_editable'] = 'The Web Client choice can be edited';
 $string['config_clienttype_editable_description'] = 'This option enable the choice of the Web Client (AdobeFlash/HTML5) from the room editing form.';
-$string['index_error_noinstances'] = 'There are no instances of bigbluebuttonbn';
-$string['index_error_bbtn'] = 'BigBlueButton ID {$a} is incorrect';
+$string['index_error_noinstances'] = 'There are no instances of Davy';
+$string['index_error_bbtn'] = 'Davy ID {$a} is incorrect';
 
 $string['view_mobile_message_reload_page_creation_time_meeting'] = 'You exceeded the 45 seconds in this page, please reload the page to join correctly to the meeting.';
 $string['view_mobile_message_groups_not_supported'] = 'This instance is enable to work with groups but the mobile app has not support for this. Please open in desktop if you want to use the group support.';
+
+$string['downlaod'] = 'Download';
+$string['showdownloadvideo'] = 'Show download mp4 for student';
+$string['backgroundimage'] = 'Background Image';
+$string['config_extrasettings'] = 'Extra Settings for Davy Plugin';
+$string['config_extrasettings_description'] = 'Upload Default Background and upload a Pre-roll';
+$string['config_default_background'] = 'Upload Default Background image';
+$string['config_default_background_description'] = 'Upload Default Background image of size 1920*1080px (PNG)';
+
+$string['config_upload_preroll'] = 'Preroll ';
+$string['config_upload_preroll_description'] = 'Upload a Preroll video (.mp4)';
+
+//Manju: recording styles.
+$string['recordingstyle'] = 'Select Recording Style ';
+$string['fullvideo'] = 'Full (Video and Presentation)';
+$string['videoonly'] = 'Video Only ';
+$string['presentationonly'] = 'Presentation Only ';
+$string['config_publish_url'] = 'Give publish url';
+$string['config_publish_url_description'] = 'Please Enter Publish URL';
+
+$string['serial'] = 'Sl No';
+$string['coursename'] = 'Course Name';
+$string['cmname'] = 'Module Name';
+$string['publishstatus'] = 'Publish Status';
+$string['republish'] = 'Mark for republish';
+
+$string['republished'] = 'Published';
+$string['unrepublished'] = 'Unpublished';
+$string['publishreport'] = 'Publish Reports';
+
+$string['successfullypublish'] = 'Successfully Published';
+$string['unabletopublish'] = 'Unable to publish';
+
+$string['republished'] = 'Published';
+$string['unrepublished'] = 'Unpublished';
+$string['publishreport'] = 'Publish Reports';
+$string['downloads'] = 'Downloads';
+
+$string['starttime'] = 'Participant Start Time';
+$string['endtime'] = 'Participant End Time';
+$string['duration'] = 'Duration';
+$string['serialno'] = 'Sl No';
+$string['attendance'] = 'Attendance Report';
+
+$string['courses'] = 'Courses';
+
+$string['publishing'] = 'Re-published';
+$string['forcepublishmessage'] = 'Re-publishing of the recording is in-progress, based on the file size it may take some time. Please click below button to go back to your recording page.</br>Once the publishing is complete download mp4 button will turn green.';
+$string['continue'] = 'Continue';
+
+$string['legend_downloadvideolock'] = 'Download Video(Not yet ready)';
+$string['legend_downloadvideogreen'] = 'Download Video(Ready)';
+$string['legend_presentation'] = 'Presentation';
+$string['legend_downloadziplock'] = 'Download Zip(Not yet ready)';
+$string['legend_downloadzipgreen'] = 'Download Zip(Ready)';
+$string['legend_forcepublish'] = 'Publish recording';
+$string['legend_unpublish'] = 'Hide recording';
+$string['legend_delete'] = 'Delete(!!Careful!!)';
+
+$string['legend_copyrecording'] = 'Copy recording link';
+$string['legend_attendance'] = 'Attendance report';
+$string['availibility'] = 'Based on your role some functionalities may not be available.';
+
+//Manju: for attendance page. 29/09/2020.
+$string['meetingname'] = 'Lecture Title';
+$string['lectureduration'] = 'Lecture Duration';
+$string['participantduration'] = 'Participant Duration';
+$string['sessiontitle'] = '<u>Session Title</u> : ';
+$string['sessiondate'] = '<u>Session Date</u> : ';
+$string['sessionduration'] = '<u>Session Duration</u> : ';
+$string['numberofparticipants'] = '<u>Number of Participants</u> : ';
+
+$string['downloadvideolink'] = 'Copy download video link';
+
+

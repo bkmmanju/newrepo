@@ -399,6 +399,7 @@ M.mod_bigbluebuttonbn.recordings = {
     },
 
     recordingPublishCompletion: function(recordingid) {
+
         var playbacks = Y.one('#playbacks-' + recordingid);
         playbacks.show();
         var preview = Y.one('#preview-' + recordingid);

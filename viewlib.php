@@ -157,6 +157,32 @@ function bigbluebuttonbn_view_render_recording_section(&$bbbsession, $type, $ena
     $output = '';
     if ($type == BIGBLUEBUTTONBN_TYPE_ALL && $bbbsession['record']) {
         $output .= html_writer::start_tag('div', array('id' => 'bigbluebuttonbn_view_recordings_header'));
+                //Manju: Adding icon info.16/09/2020.
+        $output .='<div class="card p-3 mb-2 rounded">
+        <div class="row text-center p-2"> <div class="">'.get_string('availibility','mod_bigbluebuttonbn').'</div></div>
+
+        <div class="row">
+        
+        <div class="span3"><span for="download"><i class="fa fa-download bbb-viewpage-legend-orange" aria-hidden="true" title="'.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'"></i>&nbsp; '.get_string('legend_downloadvideolock','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="download"><i class="fa fa-download bbb-viewpage-legend-green" aria-hidden="true" title="'.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; '.get_string('legend_downloadvideogreen','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="presentation"><i class="fa fa-television" aria-hidden="true" title="'.get_string('legend_presentation','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;  '.get_string('legend_presentation','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3">&nbsp;<span for="zip"><i class="fa fa-file-archive-o bbb-viewpage-legend-orange" aria-hidden="true" title="'.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; '.get_string('legend_downloadziplock','mod_bigbluebuttonbn').'</span></div>
+        </div>';
+        $output .='<div class="row">
+        <div class="span3"><span for="zip"><i class="fa fa-file-archive-o bbb-viewpage-legend-green" aria-hidden="true" title="'.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; '.get_string('legend_downloadzipgreen','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="download"><i class="fa fa-print" aria-hidden="true" title="'.get_string('legend_forcepublish','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; '.get_string('legend_forcepublish','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="presentation"><i class="icon fa fa-eye fa-fw iconsmall" title="'.get_string('legend_unpublish','mod_bigbluebuttonbn').'" aria-label="Unpublish"></i>&nbsp;  '.get_string('legend_unpublish','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="zip"><i class="icon fa fa-times fa-fw iconsmall text-danger" title="'.get_string('legend_delete','mod_bigbluebuttonbn').'" aria-label="Delete"></i> '.get_string('legend_delete','mod_bigbluebuttonbn').'</span></div>
+        
+        </div>';
+        $output .='<div class="row">
+        <div class="span3"><span for="attendance"><i class="fa fa-clipboard" aria-hidden="true" title="'.get_string('legend_copyrecording','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp; '.get_string('legend_copyrecording','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="copy"><i class="fa fa-users" aria-hidden="true" title="'.get_string('legend_attendance','mod_bigbluebuttonbn').'"></i>&nbsp; '.get_string('legend_attendance','mod_bigbluebuttonbn').'</span></div>
+        <div class="span3"><span for="copyvideo">
+        <i class="fa fa-clone" aria-hidden="true" title="'.get_string('downloadvideolink','mod_bigbluebuttonbn').'"></i>&nbsp;&nbsp;&nbsp; '.get_string('downloadvideolink','mod_bigbluebuttonbn').'</span></div>
+        </div>
+
+        </div>';
         $output .= html_writer::tag('h4', get_string('view_section_title_recordings', 'bigbluebuttonbn'));
         $output .= html_writer::end_tag('div');
     }
@@ -207,12 +233,12 @@ function bigbluebuttonbn_view_render_room(&$bbbsession, $activity, &$jsvars) {
     $openingtime = '';
     if ($bbbsession['openingtime']) {
         $openingtime = get_string('mod_form_field_openingtime', 'bigbluebuttonbn').': '.
-            userdate($bbbsession['openingtime']);
+        userdate($bbbsession['openingtime']);
     }
     $closingtime = '';
     if ($bbbsession['closingtime']) {
         $closingtime = get_string('mod_form_field_closingtime', 'bigbluebuttonbn').': '.
-            userdate($bbbsession['closingtime']);
+        userdate($bbbsession['closingtime']);
     }
     $jsvars += array(
         'meetingid' => $bbbsession['meetingid'],
@@ -293,10 +319,10 @@ function bigbluebuttonbn_view_render_recordings(&$bbbsession, $enabledfeatures, 
     $reset = get_string('reset');
     $search = get_string('search');
     $output = "<form id='bigbluebuttonbn_recordings_searchform'>
-                 <input id='searchtext' type='text'>
-                 <input id='searchsubmit' type='submit' value='{$search}'>
-                 <input id='searchreset' type='submit' value='{$reset}'>
-               </form>";
+    <input id='searchtext' type='text'>
+    <input id='searchsubmit' type='submit' value='{$search}'>
+    <input id='searchreset' type='submit' value='{$reset}'>
+    </form>";
     $output .= html_writer::div('', '', array('id' => 'bigbluebuttonbn_recordings_table'));
 
     return $output;
@@ -320,7 +346,7 @@ function bigbluebuttonbn_view_render_imported($bbbsession, $enabledfeatures) {
             'value' => get_string('view_recording_button_import', 'bigbluebuttonbn'),
             'class' => 'btn btn-secondary',
             'onclick' => 'window.location=\''.$CFG->wwwroot.'/mod/bigbluebuttonbn/import_view.php?bn='.
-                $bbbsession['bigbluebuttonbn']->id.'\''));
+            $bbbsession['bigbluebuttonbn']->id.'\''));
     $output  = html_writer::empty_tag('br');
     $output .= html_writer::tag('span', $button, array('id' => 'import_recording_links_button'));
     $output .= html_writer::tag('span', '', array('id' => 'import_recording_links_table'));
@@ -340,9 +366,9 @@ function bigbluebuttonbn_view_ended(&$bbbsession) {
         $attributes = array('title' => $bbbsession['presentation']['name']);
         $icon = new pix_icon($bbbsession['presentation']['icon'], $bbbsession['presentation']['mimetype_description']);
         return '<h4>'.get_string('view_section_title_presentation', 'bigbluebuttonbn').'</h4>'.
-            $OUTPUT->action_icon($bbbsession['presentation']['url'], $icon, null, array(), false).
-            $OUTPUT->action_link($bbbsession['presentation']['url'],
-                $bbbsession['presentation']['name'], null, $attributes).'<br><br>';
+        $OUTPUT->action_icon($bbbsession['presentation']['url'], $icon, null, array(), false).
+        $OUTPUT->action_link($bbbsession['presentation']['url'],
+            $bbbsession['presentation']['name'], null, $attributes).'<br><br>';
     }
     return '';
 }

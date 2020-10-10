@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <XMLDB PATH="mod/bigbluebuttonbn/db" VERSION="20120628" COMMENT="XMLDB file for Moodle mod/bigbluebuttonbn"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
->
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+  >
   <TABLES>
 
     <TABLE NAME="bigbluebuttonbn" COMMENT="The bigbluebuttonbn table to store information about a meeting activities.">
@@ -35,6 +35,11 @@
         <FIELD NAME="recordings_preview" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="clienttype" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="muteonstart" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <!--Manju: extra fields -->
+        <FIELD NAME="backgroundimage" TYPE="text" LENGTH="100" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="studentdownload" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <!-- Manju :added for recording style -->
+        <FIELD NAME="recordingstyle" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -64,5 +69,45 @@
         <INDEX NAME="logrow" UNIQUE="false" FIELDS="courseid, bigbluebuttonbnid, userid, log"/>
       </INDEXES>
     </TABLE>
+    <!-- Manju: Creating new table for bigbluebutton publish table.10th sep 2020 -->
+    <TABLE NAME="bigbluebutton_publish" COMMENT="The bigbluebuttonbn publish table stores meeting related information">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="meetingid" TYPE="char" LENGTH="256" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="publishflag" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="plublishdate" TYPE="char" LENGTH="256" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="filesize" TYPE="char" LENGTH="256" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <!-- Manju: Creating new table for bigbluebutton attendance table.25th sep 2020 -->
+    <TABLE NAME="bigbluebutton_attendance" COMMENT="The bigbluebuttonbn attendance table stores meeting related information">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="100" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="bigbluebuttonbnid" TYPE="char" LENGTH="256" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="jointime" TYPE="char" LENGTH="256" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="lefttime" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="recordingid" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="meetingid" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="role" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="presenter" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="listeningonly" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="clientype" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="extra" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+
+
+
   </TABLES>
 </XMLDB>

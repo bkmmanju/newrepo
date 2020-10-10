@@ -133,6 +133,11 @@ function bigbluebuttonbn_add_instance($bigbluebuttonbn) {
     bigbluebuttonbn_process_pre_save($bigbluebuttonbn);
     // Pre-set initial values.
     $bigbluebuttonbn->presentation = bigbluebuttonbn_get_media_file($bigbluebuttonbn);
+    //Manju: saving background image into draft area.
+    $context = context_module::instance($bigbluebuttonbn->coursemodule);
+    if ($bigbluebuttonbn->backgroundimage) {
+        file_save_draft_area_files($bigbluebuttonbn->backgroundimage,$context->id,'mod_bigbluebuttonbn','backgroundimage',$bigbluebuttonbn->backgroundimage,array('subdirs' => 0, 'maxbytes' => '*', 'maxfiles' => 1));
+    }
     // Insert a record.
     $bigbluebuttonbn->id = $DB->insert_record('bigbluebuttonbn', $bigbluebuttonbn);
     // Encode meetingid.
@@ -161,6 +166,11 @@ function bigbluebuttonbn_update_instance($bigbluebuttonbn) {
     // Pre-set initial values.
     $bigbluebuttonbn->id = $bigbluebuttonbn->instance;
     $bigbluebuttonbn->presentation = bigbluebuttonbn_get_media_file($bigbluebuttonbn);
+    //Manju: updating the background image.
+    $context = context_module::instance($bigbluebuttonbn->coursemodule);
+    if ($bigbluebuttonbn->backgroundimage) {
+        file_save_draft_area_files($bigbluebuttonbn->backgroundimage,$context->id,'mod_bigbluebuttonbn','backgroundimage',$bigbluebuttonbn->backgroundimage,array('subdirs' => 0, 'maxbytes' => '*', 'maxfiles' => 1));
+    }
     // Update a record.
     $DB->update_record('bigbluebuttonbn', $bigbluebuttonbn);
     // Get the meetingid column in the bigbluebuttonbn table.
@@ -239,8 +249,8 @@ function bigbluebuttonbn_delete_instance_log($bigbluebuttonbn) {
 function bigbluebuttonbn_user_outline($course, $user, $mod, $bigbluebuttonbn) {
     if ($completed = bigbluebuttonbn_user_complete($course, $user, $mod, $bigbluebuttonbn)) {
         return fullname($user).' '.get_string('view_message_has_joined', 'bigbluebuttonbn').' '.
-            get_string('view_message_session_for', 'bigbluebuttonbn').' '.(string) $completed.' '.
-            get_string('view_message_times', 'bigbluebuttonbn');
+        get_string('view_message_session_for', 'bigbluebuttonbn').' '.(string) $completed.' '.
+        get_string('view_message_times', 'bigbluebuttonbn');
     }
     return '';
 }
@@ -271,7 +281,7 @@ function bigbluebuttonbn_user_complete($courseorid, $userorid, $mod, $bigbluebut
     $sql = "SELECT COUNT(*) FROM {bigbluebuttonbn_logs} ";
     $sql .= "WHERE courseid = ? AND bigbluebuttonbnid = ? AND userid = ? AND (log = ? OR log = ?)";
     $result = $DB->count_records_sql($sql, array($course->id, $bigbluebuttonbn->id, $user->id,
-                                              BIGBLUEBUTTONBN_LOG_EVENT_JOIN, BIGBLUEBUTTONBN_LOG_EVENT_PLAYED));
+      BIGBLUEBUTTONBN_LOG_EVENT_JOIN, BIGBLUEBUTTONBN_LOG_EVENT_PLAYED));
     return $result;
 }
 
@@ -500,13 +510,13 @@ function bigbluebuttonbn_print_overview_element($bigbluebuttonbn, $now) {
     $str  = '<div class="bigbluebuttonbn overview">'."\n";
     $str .= '  <div class="name">'.get_string('modulename', 'bigbluebuttonbn').':&nbsp;'."\n";
     $str .= '    <a '.$classes.'href="'.$CFG->wwwroot.'/mod/bigbluebuttonbn/view.php?id='.$bigbluebuttonbn->coursemodule.
-      '">'.$bigbluebuttonbn->name.'</a>'."\n";
+    '">'.$bigbluebuttonbn->name.'</a>'."\n";
     $str .= '  </div>'."\n";
     $str .= '  <div class="info">'.get_string($start, 'bigbluebuttonbn').': '.userdate($bigbluebuttonbn->openingtime).
-        '</div>'."\n";
+    '</div>'."\n";
     if (!empty($bigbluebuttonbn->closingtime)) {
         $str .= '  <div class="info">'.get_string('ends_at', 'bigbluebuttonbn').': '.userdate($bigbluebuttonbn->closingtime)
-                .'</div>'."\n";
+        .'</div>'."\n";
     }
     $str .= '</div>'."\n";
     return $str;
@@ -717,7 +727,7 @@ function bigbluebuttonbn_process_post_save_completion($bigbluebuttonbn) {
             $bigbluebuttonbn->coursemodule,
             'bigbluebuttonbn',
             $bigbluebuttonbn->id, $bigbluebuttonbn->completionexpected
-          );
+        );
     }
 }
 
@@ -989,7 +999,7 @@ function mod_bigbluebuttonbn_get_fontawesome_icon_map() {
  * @return \core_calendar\local\event\entities\action_interface|null
  */
 function mod_bigbluebuttonbn_core_calendar_provide_event_action(calendar_event $event,
-        \core_calendar\action_factory $factory) {
+    \core_calendar\action_factory $factory) {
     global $CFG, $DB;
 
     require_once($CFG->dirroot . '/mod/bigbluebuttonbn/locallib.php');
@@ -1059,4 +1069,141 @@ function bigbluebuttonbn_log($bigbluebuttonbn, $event, array $overrides = [], $m
         return false;
     }
     return true;
+}
+
+function mod_bigbluebuttonbn_image($itemid,$filearea,$contextid){
+    global $DB,$CFG;
+    if(!empty($itemid)){ 
+        global $USER;
+        $component = 'mod_bigbluebuttonbn';  
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($contextid, $component, $filearea, $itemid);
+        if(!empty($files)){
+            $url2 ='';
+            foreach($files as $file) {
+                $file->get_filename();
+                // $url2 = moodle_url::make_pluginfile_url(
+                //     $file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename()
+                // );
+                // $url2=$CFG->wwwroot.'/pluginfile.php/'.$file->get_contextid().'/'.$file->get_component().'/'.$file->get_filearea().'/'.$file->get_itemid().'/'.$file->get_filepath().$file->get_filename();
+                $url2 = $file->get_filename();
+            }
+            return $url2;
+        }    
+    }  
+}
+
+//-------------------------------------------------------------
+/**
+ * Serve the files from the MYPLUGIN file areas
+ *
+ * @param stdClass $course the course object
+ * @param stdClass $cm the course module object
+ * @param stdClass $context the context
+ * @param string $filearea the name of the file area
+ * @param array $args extra arguments (itemid, path)
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ * @return bool false if the file not found, just send the file otherwise and do not return anything
+ */
+function mod_bigbluebuttonbn_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+    // Check the contextlevel is as expected - if your plugin is a block, this becomes CONTEXT_BLOCK, etc.
+    if ($context->contextlevel != CONTEXT_MODULE) {
+        return false; 
+    }
+
+    // Make sure the filearea is one of those used by the plugin.
+    if ($filearea !== 'backgroundimage') {
+        return false;
+    }
+
+    // Make sure the user is logged in and has access to the module (plugins that are not course modules should leave out the 'cm' part).
+    require_login($course, true, $cm);
+
+    // Check the relevant capabilities - these may vary depending on the filearea being accessed.
+    // if (!has_capability('mod/MYPLUGIN:view', $context)) {
+    //     return false;
+    // }
+
+    // Leave this line out if you set the itemid to null in make_pluginfile_url (set $itemid to 0 instead).
+    $itemid = array_shift($args); // The first item in the $args array.
+
+    // Use the itemid to retrieve any relevant data records and perform any security checks to see if the
+    // user really does have access to the file in question.
+
+    // Extract the filename / filepath from the $args array.
+    $filename = array_pop($args); // The last item in the $args array.
+    if (!$args) {
+        $filepath = '/'; // $args is empty => the path is '/'
+    } else {
+        $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
+    }
+
+    // Retrieve the file from the Files API.
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'mod_bigbluebuttonbn', $filearea, $itemid, $filepath, $filename);
+    if (!$file) {
+        return false; // The file does not exist.
+    }
+
+    // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering. 
+    send_stored_file($file, 86400, 0, $forcedownload, $options);
+}
+//Manju: inserting into publish table. 10/09/2020.
+function bigbluebutton_publish_insert($insert){
+    global $DB;
+    $exists = $DB->get_records_sql("SELECT * FROM {bigbluebutton_publish} WHERE meetingid LIKE '%".$insert->meetingid."%'");
+    if(empty($exists)){
+        $DB->insert_record('bigbluebutton_publish', $insert);
+    }
+}
+
+
+function mod_bigbluebuttonbn_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context){
+    global $CFG, $COURSE,$DB;
+
+    $course = $DB->get_record('course', array('id' => $COURSE->id));
+//require_course_login($course);
+    $context = context_course::instance($course->id);
+    $url1 = $CFG->wwwroot.'/mod/bigbluebuttonbn/bbb_publishreport.php?courseid='.$COURSE->id;
+    $parentnode->add('Davy Publish', $url1, navigation_node::TYPE_CONTAINER, null, 'excoursepromo', new pix_icon('i/grades', 'Davy Publish'));
+}
+
+function isa_convert_bytes_to_specified($bytes, $to, $decimal_places = 1) {
+    $formulas = array(
+        'K' => number_format($bytes / 1024, $decimal_places),
+        'M' => number_format($bytes / 1048576, $decimal_places),
+        'G' => number_format($bytes / 1073741824, $decimal_places)
+    );
+    return isset($formulas[$to]) ? $formulas[$to] : 0;
+}
+
+function bigblubutton_time_duration($d1,$d2,$type){
+    global $DB,$CFG;
+    // Declare and define two dates 
+    $date1 = strtotime(date("Y-m-d G:i:s",$d1));  
+    $date2 = strtotime(date("Y-m-d G:i:s",$d2));
+    // Formulate the Difference between two dates 
+    $diff = abs($date2 - $date1);
+    $years = floor($diff / (365*60*60*24));  
+    $months = floor(($diff - $years * 365*60*60*24) 
+        / (30*60*60*24));  
+    $days = floor(($diff - $years * 365*60*60*24 -  
+        $months*30*60*60*24)/ (60*60*24)); 
+    $hours = floor(($diff - $years * 365*60*60*24  
+        - $months*30*60*60*24 - $days*60*60*24) 
+    / (60*60));
+    $minutes = floor(($diff - $years * 365*60*60*24  
+        - $months*30*60*60*24 - $days*60*60*24  
+        - $hours*60*60)/ 60); 
+    $seconds = floor(($diff - $years * 365*60*60*24  
+       - $months*30*60*60*24 - $days*60*60*24 
+       - $hours*60*60 - $minutes*60));
+    if($type == 'M'){
+        $duration = $minutes.' Mins '.$seconds.' Secs';
+    }else if($type == 'H'){
+        $duration = $hours.' Hrs';
+    }
+    return $duration;
+    
 }
