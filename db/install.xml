@@ -86,10 +86,10 @@
     <!-- Manju: Creating new table for bigbluebutton attendance table.25th sep 2020 -->
     <TABLE NAME="bigbluebutton_attendance" COMMENT="The bigbluebuttonbn attendance table stores meeting related information">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="100" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="bigbluebuttonbnid" TYPE="char" LENGTH="256" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="jointime" TYPE="char" LENGTH="256" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="lefttime" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="recordingid" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>

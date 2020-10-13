@@ -1693,16 +1693,18 @@ function bigbluebuttonbn_get_recording_data_row_types($recording, $bbbsession) {
 			//Manju:Adding forcepublish button.15/09/2020.
 			$forcepublishhref = $CFG->wwwroot.'/mod/bigbluebuttonbn/forcepublish.php?recordid='.$recording['recordID'].'&cmid='.$rec->cmid;
 			$recordingtypes .= '&nbsp;&nbsp;<a href="'.$forcepublishhref.'" class="action-icon btn-action text-truncate" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>&nbsp;&nbsp;';
-						//Manju: Adding copy to clipboard option. 25/09/2020.
+			//Manju: Adding copy to clipboard option. 25/09/2020.
 			$serverurl = $DB->get_field('config','value',array('name'=>'bigbluebuttonbn_server_url'));
 			$reqserverurl = str_replace('/bigbluebutton/', '', $serverurl);
 			$webmurl = $reqserverurl.'/playback/presentation/2.0/playback.html?meetingId='.$recording['recordID'];
 
 			$copyid ="c".$recording['recordID'];
 			
-			$recordingtypes.="<button class='clipboard_video action-icon btn-action text-truncate copy-button' data-clipboard-text='".$videodownlink."'><i class='fa fa-clone' aria-hidden='true'></i></button>";
+			$recordingtypes.="<button class='clipboard_video action-icon btn-action text-truncate copy-button' data-clipboard-text='".$videodownlink."' data-toggle='tooltip' data-placement='top'
+  title='Click to copy recording link'><i class='fa fa-clone' aria-hidden='true'></i></button>";
 
-			$recordingtypes.="<button class='clipboard action-icon btn-action text-truncate copy-button' data-clipboard-text='".$webmurl."'><i class='fa fa-clipboard' aria-hidden='true' title='Copy to clipboard'></i></button>";
+			$recordingtypes.="<button class='clipboard action-icon btn-action text-truncate copy-button' data-clipboard-text='".$webmurl."' data-toggle='tooltip' data-placement='top'
+  title='Click to copy mp4 video link'><i class='fa fa-clipboard' aria-hidden='true'></i></button>";
 			$recordingtypes.='<input type="text" value="'.$webmurl.'" id="'.$copyid.'" style="width:5px;opacity:0;">';
 
 			$recordingtypes.=bigbluebuttonbn_get_recording_data_row_actionbar($recording, $tools = ['publish', 'delete']);
